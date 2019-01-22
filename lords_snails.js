@@ -84,6 +84,7 @@ var a_snailPot;
 var a_thronePot;
 var a_playerBalance;
 var a_playerEgg = 0;
+var a_snailCost = [0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04];
 
 var m_account = "waiting for web3";
 
@@ -531,11 +532,11 @@ function webCheckClaim(){
 		webPlantRoot();
 	}
 }
-
-//Plant root
-function webPlantRoot(){
-	var weitospend = web3.toWei(f_root,'ether');
-	PlantRoot(weitospend, function(){
+*/
+//Grab snail
+function webGrabSnail(_id){
+	var weitospend = web3.toWei(a_snailCost[_id],'ether');
+	GrabSnail(_id, weitospend, function(){
 	});
 }
 
