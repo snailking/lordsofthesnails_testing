@@ -514,12 +514,15 @@ function updatePlayerEgg(){
 
 //Current snail cost
 function updateSnailCost(){
-	i = 0;
-	while(i < 8){
-		ComputeSnailCost(i, function(result) {
-			a_snailCost[i] = formatEthValue(web3.fromWei(result,'ether'));
-			console.log("a_snailCost" + i + " = " + a_snailCost[i]);
-			i++;
+	for(i = 0; i < 8; i++){
+		checkSnailCost(i);
+	}
+}
+
+function checkSnailCost(_id){
+	ComputeSnailCost(_id, function(result) {
+		a_snailCost[_id] = formatEthValue(web3.fromWei(result,'ether'));
+		console.log("a_snailCost" + _id + " = " + a_snailCost[_id]);
 		});
 	}
 }
