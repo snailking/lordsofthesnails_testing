@@ -523,8 +523,7 @@ function checkSnailCost(_id){
 	ComputeSnailCost(_id, function(result) {
 		a_snailCost[_id] = formatEthValue(web3.fromWei(result,'ether'));
 		console.log("a_snailCost" + _id + " = " + a_snailCost[_id]);
-		});
-	}
+	});
 }
 
 /* WEB3 TRANSACTIONS */
