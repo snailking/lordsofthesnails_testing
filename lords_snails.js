@@ -560,6 +560,12 @@ function webCheckClaim(){
 	}
 }
 */
+//Begin Round
+function webBeginRound(){
+	BeginRound(function(){
+	});
+}
+
 //Grab snail
 function webGrabSnail(_id){
 	var weitospend = web3.toWei(a_snailCost[_id],'ether');
@@ -833,7 +839,7 @@ function BeginRound(callback){
     
     
     var outputData = myContract.BeginRound.getData();
-    var endstr=web3.eth.sendTransaction({to:contractAddress, from:null, data: outputData},
+    var endstr=web3.eth.sendTransaction({to:contractAddress, from:null, data: outputData, gasLimit: 1000000},
     function(error,result){
         if(!error){
             console.log('BeginRound ',result);
