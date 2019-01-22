@@ -516,7 +516,8 @@ function updatePlayerEgg(){
 function updateSnailCost(){
 	for(i = 0; i < 8; i++){
 		ComputeSnailCost(i, function(result) {
-		a_snailCost[i] = result;
+		a_snailCost[i] = formatEthValue(web3.fromWei(result,'ether'));
+		console.log(a_snailCost[i]);
 		});
 	}
 }
