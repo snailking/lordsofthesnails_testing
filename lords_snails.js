@@ -86,6 +86,7 @@ var a_thronePot;
 var a_playerBalance;
 var a_playerEgg = 0;
 var a_snailCost = [0.01, 0.02, 0.03, 0.04, 0.04, 0.04, 0.12, 0.04];
+var a_snailEgg = [1, 2, 3, 4, 5, 6, 7, 8];
 
 var m_account = "waiting for web3";
 
@@ -96,6 +97,7 @@ var doc_snailPot = document.getElementById('snailpot');
 var doc_thronePot = document.getElementById('thronepot');
 var doc_playerBalance = document.getElementById('playerbalance');
 var doc_playerEgg = document.getElementById('playeregg');
+
 var doc_snailCost0 = document.getElementById('snailcost0');
 var doc_snailCost1 = document.getElementById('snailcost1');
 var doc_snailCost2 = document.getElementById('snailcost2');
@@ -104,6 +106,15 @@ var doc_snailCost4 = document.getElementById('snailcost4');
 var doc_snailCost5 = document.getElementById('snailcost5');
 var doc_snailCost6 = document.getElementById('snailcost6');
 var doc_snailCost7 = document.getElementById('snailcost7');
+
+var doc_snailEgg0 = document.getElementById('snailegg0');
+var doc_snailEgg1 = document.getElementById('snailegg1');
+var doc_snailEgg2 = document.getElementById('snailegg2');
+var doc_snailEgg3 = document.getElementById('snailegg3');
+var doc_snailEgg4 = document.getElementById('snailegg4');
+var doc_snailEgg5 = document.getElementById('snailegg5');
+var doc_snailEgg6 = document.getElementById('snailegg6');
+var doc_snailEgg7 = document.getElementById('snailegg7');
 
 //Leaderboard Array
 /*
@@ -219,7 +230,8 @@ function mainUpdate(){
 	updateThronePot();
 	updatePlayerBalance();
 	updatePlayerEgg();
-	updateSnailCost();
+	runLoop(checkSnailCost);
+	runLoop(checkSnailEgg);
 	updateText();
 	//runLog();
 	setTimeout(mainUpdate, 4000);
@@ -370,6 +382,7 @@ function updateText(){
 	doc_thronePot.innerHTML = a_thronePot;
 	doc_playerBalance.innerHTML = a_playerBalance;
 	doc_playerEgg.innerHTML = a_playerEgg;
+	
 	doc_snailCost0.innerHTML = a_snailCost[0];
 	doc_snailCost1.innerHTML = a_snailCost[1];
 	doc_snailCost2.innerHTML = a_snailCost[2];
@@ -378,6 +391,15 @@ function updateText(){
 	doc_snailCost5.innerHTML = a_snailCost[5];
 	doc_snailCost6.innerHTML = a_snailCost[6];
 	doc_snailCost7.innerHTML = a_snailCost[7];
+	
+	doc_snailEgg0.innerHTML = a_snailEgg[0];
+	doc_snailEgg1.innerHTML = a_snailEgg[1];
+	doc_snailEgg2.innerHTML = a_snailEgg[2];
+	doc_snailEgg3.innerHTML = a_snailEgg[3];
+	doc_snailEgg4.innerHTML = a_snailEgg[4];
+	doc_snailEgg5.innerHTML = a_snailEgg[5];
+	doc_snailEgg6.innerHTML = a_snailEgg[6];
+	doc_snailEgg7.innerHTML = a_snailEgg[7];
 }
 /*
 function updateField(){
@@ -512,17 +534,26 @@ function updatePlayerEgg(){
 	});
 }
 
-//Current snail cost
-function updateSnailCost(){
+//Loop function for all snails and lords
+function runLoop(_loop){
 	for(i = 0; i < 8; i++){
-		checkSnailCost(i);
+		_loop(i);
 	}
 }
 
+//Check snail cost
 function checkSnailCost(_id){
 	ComputeSnailCost(_id, function(result) {
 		a_snailCost[_id] = formatEthValue(web3.fromWei(result,'ether'));
-		console.log("a_snailCost" + _id + " = " + a_snailCost[_id]);
+		//console.log("a_snailCost" + _id + " = " + a_snailCost[_id]);
+	});
+}
+
+//Check snail eggs
+function checkSnailEgg(_id){
+	ComputeEgg(false, _id, function(result) {
+		a_snailEgg[_id] = web3.toDecimal(result);
+		//console.log("a_snailCost" + _id + " = " + a_snailCost[_id]);
 	});
 }
 
