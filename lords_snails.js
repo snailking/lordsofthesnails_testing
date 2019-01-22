@@ -85,7 +85,7 @@ var a_snailPot;
 var a_thronePot;
 var a_playerBalance;
 var a_playerEgg = 0;
-var a_snailCost = [0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04];
+var a_snailCost = [0.01, 0.02, 0.03, 0.04, 0.04, 0.04, 0.12, 0.04];
 
 var m_account = "waiting for web3";
 
@@ -582,18 +582,6 @@ function webCheckTime(){
 	} else {
 		webGrowTree();
 	}
-}
-
-//Grow tree
-function webGrowTree(){
-	GrowTree(function(){
-	});
-}
-
-//Claim share
-function webHarvestShare(){
-	ClaimShare(function(){
-	});
 }
 
 //Withdraw balance
