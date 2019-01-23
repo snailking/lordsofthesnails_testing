@@ -206,17 +206,17 @@ function timeSinceFlip(){
 	if(downtime_hours > 0){
 		doc_timeSinceFlip.innerHTML = downtime_hours + " Hours ";
 		if(downtime_hours == 1){
-			doc_playerLastClaim.innerHTML = downtime_hours + " Hour ";
+			doc_timeSinceFlip.innerHTML = downtime_hours + " Hour ";
 		}
 	}
 	if(downtime_minutes == 1){
-		doc_playerLastClaim.innerHTML += downtime_minutes + " Minute ";
+		doc_timeSinceFlip.innerHTML += downtime_minutes + " Minute ";
 	}
 	if(downtime_minutes > 1){
-		doc_playerLastClaim.innerHTML += downtime_minutes + " Minutes ";
+		doc_timeSinceFlip.innerHTML += downtime_minutes + " Minutes ";
 	} 
 	if(downtime_hours == 0 && downtime_minutes == 0){
-		doc_playerLastClaim.innerHTML += "A few moments ";
+		doc_timeSinceFlip.innerHTML += "A few moments ";
 	}	
 }
 
