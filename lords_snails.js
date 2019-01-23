@@ -592,7 +592,7 @@ function checkSnailEgg(_id){
 //Check snail owner
 function checkSnailOwner(_id){
 	GetSnailOwner(_id, function(result) {
-		a_snailOwner[_id] = result;
+		a_snailOwner[_id] = "0x" + result.substring(26, 66);;
 		//console.log("a_snailCost" + _id + " = " + a_snailCost[_id]);
 	});
 }
