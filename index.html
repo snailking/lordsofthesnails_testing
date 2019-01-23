@@ -21,13 +21,19 @@
 		</div>
 		<!-- ROUND INFO -->
 		<div class="jumbotron">
-			<h1 align="center">ROUND <span id="gameround">?</span></h1>
+			<h1 align="center">ROUND <span id="gameround">?</span> - <span id="gameactive">?</h1><br>
 			<div class="row">
 				<div class="col-sm" align="left">
-					<h3><span id="roundpot">?</span> ETH</h3>
+					<h4>Round Prize</h3>
+					<h4><span id="roundpot">?</span> ETH</h3>
+				</div>
+				<div class="col-sm" align="center">
+					<h4>0x12345678 leads with</h3>
+					<h4>43214321 Eggs</h3>
 				</div>
 				<div class="col-sm" align="right">
-					<h3><span id="winreq">?</span> Eggs</h3>
+					<h4>Victory Requirement</h3>
+					<h4><span id="winreq">?</span> Eggs</h3>
 				</div>
 			</div>
 		</div>
@@ -36,79 +42,165 @@
 			<p>Welcome to the Lords of the Snails testing area. Still in construction...</p>
 		</div><br>
 		<!-- MAIN -->
-		<div class="jumbotron">
-			
-			<h3>DATA</h3>
+		<div class="jumbotron border6">
+			<div class="row">
+				<div class="col-sm">
+					<h3 align="center">LEADERBOARD (mockup)</h3>
+					<div class="snail">
+						<p>#1: 0xsnailman, 448000 Eggs</p>
+						<p>#2: 0xsnailgal, 224000 Eggs</p>
+						<p>#3: 0xsnailboy, 112000 Eggs</p>
+						<p>#4: 0xsnaillad, 56000 Eggs</p>
+						<p>#5: 0xsnailguy, 28000 Eggs</p>
+					</div>
+				</div>
+				<div class="col-sm">
+					<h3 align="center">EVENTS (mockup)</h3>
+					<div class="snail">
+						<p>[12:12:12] Something happened</p>
+						<p>[13:13:13] Something happened again</p>
+						<p>[13:13:13] Something happened again</p>
+						<p>[13:13:13] Something happened again</p>
+						<p>[13:13:13] Something happened again</p>
+					</div>
+				</div>
+			</div>
+		</div><br>
+		<div class="jumbotron" align="center">
+			<div class="row">
+				<div class="col-sm">
+					<h3>ACHILLES</h3>
+					<div class="snail achilles">
+						<button class="btn btn-lg btn-success" onclick="webGrabSnail(0)">GRAB</button>
+						<h5>Cost: <span id="snailcost0">?</span> ETH</h5>
+						<h5>Reward: 348085 Eggs</h5>
+						<br><br><br><br>
+						<h5>Owner: <span id="snailowner0">?</span></h5>
+						<h5>Eggs: <span id="snailegg0">?</span></h5>
+						<button class="btn btn-lg btn-success">SNAG</button>
+					</div>
+				</div>
+				<div class="col-sm">
+					<h3>DAEDALUS</h3>
+					<div class="snail daedalus">
+						<button class="btn btn-lg btn-success" onclick="webGrabSnail(1)">GRAB</button>
+						<h5>Cost: <span id="snailcost1">?</span> ETH</h5>
+						<h5>Reward: 344444 Eggs</h5>
+						<br><br><br><br>
+						<h5>Owner: <span id="snailowner1">?</span></p>
+						<h5>Eggs: <span id="snailegg1">?</span></h5>
+						<button class="btn btn-lg btn-success">SNAG</button>
+					</div>
+				</div>
+				<div class="col-sm">
+					<h3>HERACLES</h3>
+					<div class="snail heracles">
+						<button class="btn btn-lg btn-success" onclick="webGrabSnail(2)">GRAB</button>
+						<h5>Cost: <span id="snailcost2">?</span> ETH</h5>
+						<h5>Reward: 344444 Eggs</h5>
+						<br><br><br><br>
+						<h5>Owner: <span id="snailowner2">?</span></p>
+						<h5>Eggs: <span id="snailegg2">?</span></h5>
+						<button class="btn btn-lg btn-success">SNAG</button>
+					</div>
+				</div>
+				<div class="col-sm">
+					<h3>ICARUS</h3>
+					<div class="snail icarus">
+						<button class="btn btn-lg btn-success" onclick="webGrabSnail(3)">GRAB</button>
+						<h5>Cost: <span id="snailcost3">?</span> ETH</h5>
+						<h5>Reward: 344444 Eggs</h5>
+						<br><br><br><br>
+						<h5>Owner: <span id="snailowner3">?</span></p>
+						<h5>Eggs: <span id="snailegg3">?</span></h5>
+						<button class="btn btn-lg btn-success">SNAG</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="jumbotron border6">
+			<div align="center">
+				<h3>Hibernation since <span id="timesinceflip">?</span></h3>
+				<h4>+<span id="flipbonus">?</span>% Eggs on next Grab</h4>
+			</div>
+		</div>
+		<br>
+		<div class="jumbotron" align="center">
+			<div class="row">
+				<div class="col-sm">
+					<h3>JASON</h3>
+					<div class="snail jason">
+						<button class="btn btn-lg btn-success" onclick="webGrabSnail(4)">GRAB</button>
+						<h5>Cost: <span id="snailcost4">?</span> ETH</h5>
+						<h5>Reward: 348085 Eggs</h5>
+						<br><br><br><br>
+						<h5>Owner: <span id="snailowner4">?</span></h5>
+						<h5>Eggs: <span id="snailegg4">?</span></h5>
+						<button class="btn btn-lg btn-success">SNAG</button>
+					</div>
+				</div>
+				<div class="col-sm">
+					<h3>ODYSSEUS</h3>
+					<div class="snail odysseus">
+						<button class="btn btn-lg btn-success" onclick="webGrabSnail(5)">GRAB</button>
+						<h5>Cost: <span id="snailcost5">?</span> ETH</h5>
+						<h5>Reward: 344444 Eggs</h5>
+						<br><br><br><br>
+						<h5>Owner: <span id="snailowner5">?</span></p>
+						<h5>Eggs: <span id="snailegg5">?</span></h5>
+						<button class="btn btn-lg btn-success">SNAG</button>
+					</div>
+				</div>
+				<div class="col-sm">
+					<h3>PERSEUS</h3>
+					<div class="snail perseus">
+						<button class="btn btn-lg btn-success" onclick="webGrabSnail(6)">GRAB</button>
+						<h5>Cost: <span id="snailcost6">?</span> ETH</h5>
+						<h5>Reward: 344444 Eggs</h5>
+						<br><br><br><br>
+						<h5>Owner: <span id="snailowner6">?</span></p>
+						<h5>Eggs: <span id="snailegg6">?</span></h5>
+						<button class="btn btn-lg btn-success">SNAG</button>
+					</div>
+				</div>
+				<div class="col-sm">
+					<h3>THESEUS</h3>
+					<div class="snail theseus">
+						<button class="btn btn-lg btn-success" onclick="webGrabSnail(7)">GRAB</button>
+						<h5>Cost: <span id="snailcost7">?</span> ETH</h5>
+						<h5>Reward: 344444 Eggs</h5>
+						<br><br><br><br>
+						<h5>Owner: <span id="snailowner7">?</span></p>
+						<h5>Eggs: <span id="snailegg7">?</span></h5>
+						<button class="btn btn-lg btn-success">SNAG</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="jumbotron border6" align="center">
+			<h2>NEST</h2><br>
+			<div class="row">
+				<div class="col-sm">
+					<h4>You earned <span id="playerbalance">?</span> ETH</h3>
+				</div>
+				<div class="col-sm">
+					<h4>You own <span id="playeregg">?</span> Eggs</h3>
+				</div>
+			</div><br>
+			<button class="btn btn-lg btn-success" onclick="webWithdrawBalance()">WITHDRAW BALANCE</button>
+		</div>
+		<div class="container">
+			<h3>STATS</h3>
 			<p>Contract Balance: <span id="contractbalance">?</span></p>
 			<p>SnailPot: <span id="snailpot">?</span></p>
 			<p>ThronePot: <span id="thronepot">?</span></p>
-			<p>Player Balance: <span id="playerbalance">?</span></p>
-			<p>Player Eggs: <span id="playeregg">?</span></p><br>
-			<div class="row">
-				<div class="col-sm">
-					<p>Red Snail Cost: <span id="snailcost0">?</span> ETH</p>
-					<p>Red Snail Eggs: <span id="snailegg0">?</span></p>
-					<p>Red Snail Owner: <span id="snailowner0">?</span></p>
-				</div>
-				<div class="col-sm">
-					<p>Orange Snail Cost: <span id="snailcost1">?</span> ETH</p>
-					<p>Orange Snail Eggs: <span id="snailegg1">?</span></p>
-					<p>Orange Snail Owner: <span id="snailowner1">?</span></p>
-				</div>
-				<div class="col-sm">
-					<p>Yellow Snail Cost: <span id="snailcost2">?</span> ETH</p>
-					<p>Yellow Snail Eggs: <span id="snailegg2">?</span></p>
-					<p>Yellow Snail Owner: <span id="snailowner2">?</span></p>
-				</div>
-				<div class="col-sm">
-					<p>Green Snail Cost: <span id="snailcost3">?</span> ETH</p>
-					<p>Green Snail Eggs: <span id="snailegg3">?</span></p>
-					<p>Green Snail Owner: <span id="snailowner3">?</span></p>
-				</div>
-			</div><br>
-			<div align="center">
-				<h3>Hibernation since <span id="timesinceflip">?</span> ago</h3>
-				<h4>+<span id="flipbonus">?</span>% Eggs on next Grab</h4>
-			</div><br>
-			<div class="row">
-				<div class="col-sm">
-					<p>Blue Snail Cost: <span id="snailcost4">?</span> ETH</p>
-					<p>Blue Snail Eggs: <span id="snailegg4">?</span></p>
-					<p>Blue Snail Owner: <span id="snailowner4">?</span></p>
-				</div>
-				<div class="col-sm">
-					<p>Purple Snail Cost: <span id="snailcost5">?</span> ETH</p>
-					<p>Purple Snail Eggs: <span id="snailegg5">?</span></p>
-					<p>Purple Snail Owner: <span id="snailowner5">?</span></p>
-				</div>
-				<div class="col-sm">
-					<p>Black Snail Cost: <span id="snailcost6">?</span> ETH</p>
-					<p>Black Snail Eggs: <span id="snailegg6">?</span></p>
-					<p>Black Snail Owner: <span id="snailowner6">?</span></p>
-				</div>
-				<div class="col-sm">
-					<p>White Snail Cost: <span id="snailcost7">?</span> ETH</p>
-					<p>White Snail Eggs: <span id="snailegg7">?</span></p>
-					<p>White Snail Owner: <span id="snailowner7">?</span></p>
-				</div>
-			</div><br>
-			
-			
-			
-			
-			
-			
+		</div><br>
+		<div class="jumbotron">	
 			<h3>ACTIONS</h3>
-			<button class="btn btn-lg btn-success" onclick="webBeginRound()">BEGIN ROUND</button><br>
-			<button class="btn btn-lg btn-success" onclick="webGrabSnail(0)">GRAB RED SNAIL</button>
-			<button class="btn btn-lg btn-success" onclick="webGrabSnail(1)">GRAB ORANGE SNAIL</button>
-			<button class="btn btn-lg btn-success" onclick="webGrabSnail(2)">GRAB YELLOW SNAIL</button>
-			<button class="btn btn-lg btn-success" onclick="webGrabSnail(3)">GRAB GREEN SNAIL</button>
-			<button class="btn btn-lg btn-success" onclick="webGrabSnail(4)">GRAB BLUE SNAIL</button>
-			<button class="btn btn-lg btn-success" onclick="webGrabSnail(5)">GRAB PURPLE SNAIL</button>
-			<button class="btn btn-lg btn-success" onclick="webGrabSnail(6)">GRAB BLACK SNAIL</button>
-			<button class="btn btn-lg btn-success" onclick="webGrabSnail(7)">GRAB WHITE SNAIL</button><br>
-			<button class="btn btn-lg btn-success" onclick="webWithdrawBalance()">WITHDRAW BALANCE</button>
+			<button class="btn btn-lg btn-success" onclick="webBeginRound()">BEGIN ROUND</button>
+
 			<button class="btn btn-lg btn-success" onclick="webPayThrone()">PAY THRONE</button>
 		</div>
 		<!-- JAVASCRIPT -->

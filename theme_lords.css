@@ -5,6 +5,51 @@
 #ffffff
 */
 
+/* Snail containers */
+
+.snail{
+	background-color: #eddbaa;
+	border: 4px solid;
+	border-image: url("img/border_5.png") 48 round;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 128px;
+	margin: 4px;
+	padding: 4px;
+}
+
+.achilles{
+	background-image: url("img/achilles.png");
+}
+
+.daedalus{
+	background-image: url("img/daedalus.png");
+}
+
+.heracles{
+	background-image: url("img/heracles.png");
+}
+
+.icarus{
+	background-image: url("img/icarus.png");
+}
+
+.jason{
+	background-image: url("img/jason.png");
+}
+
+.odysseus{
+	background-image: url("img/odysseus.png");
+}
+
+.perseus{
+	background-image: url("img/perseus.png");
+}
+
+.theseus{
+	background-image: url("img/theseus.png");
+}
+
 a {
 	color: black;
 }
@@ -72,6 +117,10 @@ body {
   }
 }
 
+.border6{
+	border-image: url("img/border_6.png") 48 round;
+}
+
 .container-beige {
 	background-color: #8eb6bf;
 	color: black;
@@ -113,11 +162,18 @@ body {
 	background-color: #f5c569;
 }
 
+.btn:focus,.btn:active {
+   outline: none !important;
+   box-shadow: none;
+}
+
 .btn-success:hover {
   color: #fff;
   background-color: #a45436;
   border-color: #1e7e34;
+  outline: 0;
 }
+
 .leader-style {
 	font-size: 1.25rem;
 }
