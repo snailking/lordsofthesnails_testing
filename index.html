@@ -19,33 +19,85 @@
 			<h1>LORDS OF THE SNAILS</h1>
 			<h1 class="black-shadow">Grab and Snag your way to the jackpot</h1>
 		</div>
+		<!-- ROUND INFO -->
+		<div class="jumbotron">
+			<h1 align="center">ROUND <span id="gameround">?</span></h1>
+			<div class="row">
+				<div class="col-sm" align="left">
+					<h3><span id="roundpot">?</span> ETH</h3>
+				</div>
+				<div class="col-sm" align="right">
+					<h3><span id="winreq">?</span> Eggs</h3>
+				</div>
+			</div>
+		</div>
+		<!-- WIP --><br>
+		<div class="container" align="center">
+			<p>Welcome to the Lords of the Snails testing area. Still in construction...</p>
+		</div><br>
 		<!-- MAIN -->
 		<div class="jumbotron">
-			<p>Welcome to the Lords of the Snails testing area. Still in construction...</p><br>
+			
 			<h3>DATA</h3>
 			<p>Contract Balance: <span id="contractbalance">?</span></p>
-			<p>Game Round: <span id="gameround">?</span></p>
-			<p>RoundPot: <span id="roundpot">?</span></p>
 			<p>SnailPot: <span id="snailpot">?</span></p>
 			<p>ThronePot: <span id="thronepot">?</span></p>
 			<p>Player Balance: <span id="playerbalance">?</span></p>
 			<p>Player Eggs: <span id="playeregg">?</span></p><br>
-			<p>Red Snail Cost: <span id="snailcost0">?</span> ETH</p>
-			<p>Red Snail Eggs: <span id="snailegg0">?</span></p>
-			<p>Orange Snail Cost: <span id="snailcost1">?</span> ETH</p>
-			<p>Orange Snail Eggs: <span id="snailegg1">?</span></p>
-			<p>Yellow Snail Cost: <span id="snailcost2">?</span> ETH</p>
-			<p>Yellow Snail Eggs: <span id="snailegg2">?</span></p>
-			<p>Green Snail Cost: <span id="snailcost3">?</span> ETH</p>
-			<p>Green Snail Eggs: <span id="snailegg3">?</span></p>
-			<p>Blue Snail Cost: <span id="snailcost4">?</span> ETH</p>
-			<p>Blue Snail Eggs: <span id="snailegg4">?</span></p>
-			<p>Purple Snail Cost: <span id="snailcost5">?</span> ETH</p>
-			<p>Purple Snail Eggs: <span id="snailegg5">?</span></p>
-			<p>Black Snail Cost: <span id="snailcost6">?</span> ETH</p>
-			<p>Black Snail Eggs: <span id="snailegg6">?</span></p>
-			<p>White Snail Cost: <span id="snailcost7">?</span> ETH</p>
-			<p>White Snail Eggs: <span id="snailegg7">?</span></p>
+			<div class="row">
+				<div class="col-sm">
+					<p>Red Snail Cost: <span id="snailcost0">?</span> ETH</p>
+					<p>Red Snail Eggs: <span id="snailegg0">?</span></p>
+					<p>Red Snail Owner: <span id="snailowner0">?</span></p>
+				</div>
+				<div class="col-sm">
+					<p>Orange Snail Cost: <span id="snailcost1">?</span> ETH</p>
+					<p>Orange Snail Eggs: <span id="snailegg1">?</span></p>
+					<p>Orange Snail Owner: <span id="snailowner1">?</span></p>
+				</div>
+				<div class="col-sm">
+					<p>Yellow Snail Cost: <span id="snailcost2">?</span> ETH</p>
+					<p>Yellow Snail Eggs: <span id="snailegg2">?</span></p>
+					<p>Yellow Snail Owner: <span id="snailowner2">?</span></p>
+				</div>
+				<div class="col-sm">
+					<p>Green Snail Cost: <span id="snailcost3">?</span> ETH</p>
+					<p>Green Snail Eggs: <span id="snailegg3">?</span></p>
+					<p>Green Snail Owner: <span id="snailowner3">?</span></p>
+				</div>
+			</div><br>
+			<div align="center">
+				<h3>Hibernation since <span id="timesinceflip">?</span> ago</h3>
+				<h4>+<span id="flipbonus">?</span>% Eggs on next Grab</h4>
+			</div><br>
+			<div class="row">
+				<div class="col-sm">
+					<p>Blue Snail Cost: <span id="snailcost4">?</span> ETH</p>
+					<p>Blue Snail Eggs: <span id="snailegg4">?</span></p>
+					<p>Blue Snail Owner: <span id="snailowner4">?</span></p>
+				</div>
+				<div class="col-sm">
+					<p>Purple Snail Cost: <span id="snailcost5">?</span> ETH</p>
+					<p>Purple Snail Eggs: <span id="snailegg5">?</span></p>
+					<p>Purple Snail Owner: <span id="snailowner5">?</span></p>
+				</div>
+				<div class="col-sm">
+					<p>Black Snail Cost: <span id="snailcost6">?</span> ETH</p>
+					<p>Black Snail Eggs: <span id="snailegg6">?</span></p>
+					<p>Black Snail Owner: <span id="snailowner6">?</span></p>
+				</div>
+				<div class="col-sm">
+					<p>White Snail Cost: <span id="snailcost7">?</span> ETH</p>
+					<p>White Snail Eggs: <span id="snailegg7">?</span></p>
+					<p>White Snail Owner: <span id="snailowner7">?</span></p>
+				</div>
+			</div><br>
+			
+			
+			
+			
+			
+			
 			<h3>ACTIONS</h3>
 			<button class="btn btn-lg btn-success" onclick="webBeginRound()">BEGIN ROUND</button><br>
 			<button class="btn btn-lg btn-success" onclick="webGrabSnail(0)">GRAB RED SNAIL</button>

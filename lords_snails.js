@@ -83,10 +83,14 @@ var a_gameRound;
 var a_roundPot;
 var a_snailPot;
 var a_thronePot;
+var a_lastFlip;
+var a_timeSinceFlip;
+var a_flipBonus;
 var a_playerBalance;
 var a_playerEgg = 0;
 var a_snailCost = [0.01, 0.02, 0.03, 0.04, 0.04, 0.04, 0.12, 0.04];
 var a_snailEgg = [1, 2, 3, 4, 5, 6, 7, 8];
+var a_snailOwner = ["", "", "", "", "", "", "", ""];
 
 var m_account = "waiting for web3";
 
@@ -95,6 +99,9 @@ var doc_gameRound = document.getElementById('gameround');
 var doc_roundPot = document.getElementById('roundpot');
 var doc_snailPot = document.getElementById('snailpot');
 var doc_thronePot = document.getElementById('thronepot');
+var doc_winReq = document.getElementById('winreq');
+var doc_timeSinceFlip = document.getElementById('timesinceflip');
+var doc_flipBonus = document.getElementById('flipbonus');
 var doc_playerBalance = document.getElementById('playerbalance');
 var doc_playerEgg = document.getElementById('playeregg');
 
@@ -115,6 +122,15 @@ var doc_snailEgg4 = document.getElementById('snailegg4');
 var doc_snailEgg5 = document.getElementById('snailegg5');
 var doc_snailEgg6 = document.getElementById('snailegg6');
 var doc_snailEgg7 = document.getElementById('snailegg7');
+
+var doc_snailOwner0 = document.getElementById('snailowner0');
+var doc_snailOwner1 = document.getElementById('snailowner1');
+var doc_snailOwner2 = document.getElementById('snailowner2');
+var doc_snailOwner3 = document.getElementById('snailowner3');
+var doc_snailOwner4 = document.getElementById('snailowner4');
+var doc_snailOwner5 = document.getElementById('snailowner5');
+var doc_snailOwner6 = document.getElementById('snailowner6');
+var doc_snailOwner7 = document.getElementById('snailowner7');
 
 //Leaderboard Array
 /*
@@ -174,27 +190,23 @@ function checkLaunch(){
 		prelaunch_modal.style.display = "none";
 	//}
 }
-	
-//Time since player claim, converted to text
-function timeSincePlayerClaim(){
+*/	
+//Time since last flip, converted to text
+function timeSinceFlip(){
 	var blocktime = Math.round((new Date()).getTime() / 1000); //current blocktime should be Unix timestamp
-	a_timeSincePlayerClaim = blocktime - a_playerLastClaim;
+	a_timeSinceFlip = blocktime - a_lastFlip;
+	a_flipBonus = Math.floor(a_timeSinceFlip / 60); //1% per minute
 	
-	downtime_hours = Math.floor(a_timeSincePlayerClaim / 3600);
-	downtime_minutes = Math.floor((a_timeSincePlayerClaim % 3600) / 60);
+	downtime_hours = Math.floor(a_timeSinceFlip / 3600);
+	downtime_minutes = Math.floor((a_timeSinceFlip % 3600) / 60);
 	//downtime_seconds = parseFloat((a_timeSincePlayerClaim % 3600) % 60).toFixed(0);
 	
-	doc_playerLastClaim.innerHTML = "";
-	doc_boostReady.innerHTML = "<h5 class='black-shadow'>Adds Boost once per hour</h5>";
+	doc_timeSinceFlip.innerHTML = "";
 	
 	if(downtime_hours > 0){
-		doc_playerLastClaim.innerHTML = downtime_hours + " Hours ";
-		doc_boostReady.innerHTML = "<h5 class='black-shadow pulse-text'>[BOOST READY]</h5>";
+		doc_timeSinceFlip.innerHTML = downtime_hours + " Hours ";
 		if(downtime_hours == 1){
 			doc_playerLastClaim.innerHTML = downtime_hours + " Hour ";
-		}
-		if(downtime_hours > 9){
-			doc_boostReady.innerHTML = "<h4 class='black-shadow pulse-text'>[!MAXIMUM BOOST READY!]</h4>";
 		}
 	}
 	if(downtime_minutes == 1){
@@ -206,7 +218,6 @@ function timeSincePlayerClaim(){
 	if(downtime_hours == 0 && downtime_minutes == 0){
 		doc_playerLastClaim.innerHTML += "A few moments ";
 	}	
-	doc_playerLastClaim.innerHTML += " ago";
 }
 
 //Fill up the field with player pecans
@@ -228,10 +239,13 @@ function mainUpdate(){
 	updateSnailPot();
 	updateRoundPot();
 	updateThronePot();
+	updateLastFlip();
+	timeSinceFlip();
 	updatePlayerBalance();
 	updatePlayerEgg();
 	runLoop(checkSnailCost);
 	runLoop(checkSnailEgg);
+	runLoop(checkSnailOwner);
 	updateText();
 	//runLog();
 	setTimeout(mainUpdate, 4000);
@@ -380,8 +394,10 @@ function updateText(){
 	doc_snailPot.innerHTML = a_snailPot;
 	doc_roundPot.innerHTML = a_roundPot;
 	doc_thronePot.innerHTML = a_thronePot;
+	doc_flipBonus.innerHTML = a_flipBonus;
 	doc_playerBalance.innerHTML = a_playerBalance;
 	doc_playerEgg.innerHTML = a_playerEgg;
+	doc_winReq.innerHTML = a_gameRound * 1000000;
 	
 	doc_snailCost0.innerHTML = a_snailCost[0];
 	doc_snailCost1.innerHTML = a_snailCost[1];
@@ -400,6 +416,15 @@ function updateText(){
 	doc_snailEgg5.innerHTML = a_snailEgg[5];
 	doc_snailEgg6.innerHTML = a_snailEgg[6];
 	doc_snailEgg7.innerHTML = a_snailEgg[7];
+	
+	doc_snailOwner0.innerHTML = formatEthAdr(a_snailOwner[0]);
+	doc_snailOwner1.innerHTML = formatEthAdr(a_snailOwner[1]);
+	doc_snailOwner2.innerHTML = formatEthAdr(a_snailOwner[2]);
+	doc_snailOwner3.innerHTML = formatEthAdr(a_snailOwner[3]);
+	doc_snailOwner4.innerHTML = formatEthAdr(a_snailOwner[4]);
+	doc_snailOwner5.innerHTML = formatEthAdr(a_snailOwner[5]);
+	doc_snailOwner6.innerHTML = formatEthAdr(a_snailOwner[6]);
+	doc_snailOwner7.innerHTML = formatEthAdr(a_snailOwner[7]);
 }
 /*
 function updateField(){
@@ -520,6 +545,13 @@ function updateThronePot(){
 	});
 }
 
+//Last Grab action globally
+function updateLastFlip(){
+	lastFlip(function(result) {
+		a_lastFlip = result;
+	});
+}
+
 //Current player balance
 function updatePlayerBalance(){
 	GetPlayerBalance(m_account, function(result) {
@@ -553,6 +585,14 @@ function checkSnailCost(_id){
 function checkSnailEgg(_id){
 	ComputeEgg(false, _id, function(result) {
 		a_snailEgg[_id] = web3.toDecimal(result);
+		//console.log("a_snailCost" + _id + " = " + a_snailCost[_id]);
+	});
+}
+
+//Check snail owner
+function checkSnailOwner(_id){
+	GetSnailOwner(_id, function(result) {
+		a_snailOwner[_id] = result;
 		//console.log("a_snailCost" + _id + " = " + a_snailCost[_id]);
 	});
 }
