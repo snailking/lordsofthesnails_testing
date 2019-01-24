@@ -806,7 +806,7 @@ function webGrabSnail(_id){
 //Snag eggs
 function webSnagEgg(_id){
 	var weitospend = web3.toWei(a_snagCost,'ether');
-	SnagEgg(_id, weitospend, function(){
+	Snag(_id, weitospend, function(){
 	});
 }
 
