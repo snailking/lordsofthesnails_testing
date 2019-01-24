@@ -80,6 +80,7 @@ var timeNow;
 
 var a_contractBalance;
 var a_gameRound;
+var a_gameActive = false;
 var a_roundPot;
 var a_snailPot;
 var a_thronePot;
@@ -88,6 +89,7 @@ var a_timeSinceFlip;
 var a_flipBonus;
 var a_playerBalance;
 var a_playerEgg = 0;
+var a_snailLevel = [1, 2, 3, 4, 5, 6, 7, 8];
 var a_snailCost = [0.01, 0.02, 0.03, 0.04, 0.04, 0.04, 0.12, 0.04];
 var a_snailEgg = [1, 2, 3, 4, 5, 6, 7, 8];
 var a_snailOwner = ["", "", "", "", "", "", "", ""];
@@ -96,6 +98,7 @@ var m_account = "waiting for web3";
 
 var doc_contractBalance = document.getElementById('contractbalance');
 var doc_gameRound = document.getElementById('gameround');
+var doc_gameActive = document.getElementById('gameactive');
 var doc_roundPot = document.getElementById('roundpot');
 var doc_snailPot = document.getElementById('snailpot');
 var doc_thronePot = document.getElementById('thronepot');
@@ -104,6 +107,15 @@ var doc_timeSinceFlip = document.getElementById('timesinceflip');
 var doc_flipBonus = document.getElementById('flipbonus');
 var doc_playerBalance = document.getElementById('playerbalance');
 var doc_playerEgg = document.getElementById('playeregg');
+
+var doc_snailLevel0 = document.getElementById('snaillevel0');
+var doc_snailLevel1 = document.getElementById('snaillevel1');
+var doc_snailLevel2 = document.getElementById('snaillevel2');
+var doc_snailLevel3 = document.getElementById('snaillevel3');
+var doc_snailLevel4 = document.getElementById('snaillevel4');
+var doc_snailLevel5 = document.getElementById('snaillevel5');
+var doc_snailLevel6 = document.getElementById('snaillevel6');
+var doc_snailLevel7 = document.getElementById('snaillevel7');
 
 var doc_snailCost0 = document.getElementById('snailcost0');
 var doc_snailCost1 = document.getElementById('snailcost1');
@@ -236,6 +248,7 @@ function mainUpdate(){
 	updateEthAccount();
 	updateContractBalance();
 	updateGameRound();
+	updateGameActive();
 	updateSnailPot();
 	updateRoundPot();
 	updateThronePot();
@@ -243,7 +256,7 @@ function mainUpdate(){
 	timeSinceFlip();
 	updatePlayerBalance();
 	updatePlayerEgg();
-	runLoop(checkSnailCost);
+	runLoop(checkSnailLevel);
 	runLoop(checkSnailEgg);
 	runLoop(checkSnailOwner);
 	updateText();
@@ -399,14 +412,23 @@ function updateText(){
 	doc_playerEgg.innerHTML = a_playerEgg;
 	doc_winReq.innerHTML = a_gameRound * 1000000;
 	
-	doc_snailCost0.innerHTML = a_snailCost[0];
-	doc_snailCost1.innerHTML = a_snailCost[1];
-	doc_snailCost2.innerHTML = a_snailCost[2];
-	doc_snailCost3.innerHTML = a_snailCost[3];
-	doc_snailCost4.innerHTML = a_snailCost[4];
-	doc_snailCost5.innerHTML = a_snailCost[5];
-	doc_snailCost6.innerHTML = a_snailCost[6];
-	doc_snailCost7.innerHTML = a_snailCost[7];
+	doc_snailLevel0.innerHTML = a_snailLevel[0];
+	doc_snailLevel1.innerHTML = a_snailLevel[1];
+	doc_snailLevel2.innerHTML = a_snailLevel[2];
+	doc_snailLevel3.innerHTML = a_snailLevel[3];
+	doc_snailLevel4.innerHTML = a_snailLevel[4];
+	doc_snailLevel5.innerHTML = a_snailLevel[5];
+	doc_snailLevel6.innerHTML = a_snailLevel[6];
+	doc_snailLevel7.innerHTML = a_snailLevel[7];
+	
+	doc_snailCost0.innerHTML = (a_snailLevel[0] + 1) * 0.02;
+	doc_snailCost1.innerHTML = (a_snailLevel[1] + 1) * 0.02;
+	doc_snailCost2.innerHTML = (a_snailLevel[2] + 1) * 0.02;
+	doc_snailCost3.innerHTML = (a_snailLevel[3] + 1) * 0.02;
+	doc_snailCost4.innerHTML = (a_snailLevel[4] + 1) * 0.02;
+	doc_snailCost5.innerHTML = (a_snailLevel[5] + 1) * 0.02;
+	doc_snailCost6.innerHTML = (a_snailLevel[6] + 1) * 0.02;
+	doc_snailCost7.innerHTML = (a_snailLevel[7] + 1) * 0.02;
 	
 	doc_snailEgg0.innerHTML = a_snailEgg[0];
 	doc_snailEgg1.innerHTML = a_snailEgg[1];
@@ -524,6 +546,13 @@ function updateGameRound(){
 	});
 }
 
+//State of the game
+function updateGameActive(){
+	gameActive(function(result){
+		a_gameActive = result;
+	});
+}
+
 //Current tree pot
 function updateSnailPot(){
 	snailPot(function(result) {
@@ -573,6 +602,14 @@ function runLoop(_loop){
 	}
 }
 
+//Check snail level
+function checkSnailLevel(_id){
+	GetSnailLevel(_id, function(result){
+		a_snailLevel[_id] = web3.toDecimal(result);
+	});
+}
+
+/*
 //Check snail cost
 function checkSnailCost(_id){
 	ComputeSnailCost(_id, function(result) {
@@ -580,7 +617,7 @@ function checkSnailCost(_id){
 		//console.log("a_snailCost" + _id + " = " + a_snailCost[_id]);
 	});
 }
-
+*/
 //Check snail eggs
 function checkSnailEgg(_id){
 	ComputeEgg(false, _id, function(result) {

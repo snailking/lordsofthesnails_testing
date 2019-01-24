@@ -5,6 +5,18 @@
 #ffffff
 */
 
+/* Info container */
+
+.info{
+	background-color: #eddbaa;
+	border-top: 4px solid;
+	border-bottom: 4px solid;
+	border-image: url("img/border_5.png") 48 round;
+	margin: 0px;
+	padding: 0px;
+	padding-top: 4px;
+}
+
 /* Snail containers */
 
 .snail{
