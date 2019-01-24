@@ -628,7 +628,7 @@ function updateThronePot(){
 function updateLeader(){
 	leader(function(result) {
 		a_leader = "0x" + result.substring(26, 66);
-	}
+	});
 }
 
 //Current leader eggs
