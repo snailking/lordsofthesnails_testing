@@ -297,16 +297,20 @@ function timeSinceClaim(){
 function countDowntime(){
 	if(a_gameActive == false){
 		var blocktime = Math.round((new Date()).getTime() / 1000); //current blocktime should be Unix timestamp
-		a_downtime = blocktime - a_nextRoundStart;
+		a_downtime = a_nextRoundStart - blocktime;
 		
-		downtime_hours = Math.floor(a_downtime / 3600);
-		if(downtime_hours < 10) { downtime_hours = "0" + downtime_hours }
-		downtime_minutes = Math.floor((a_downtime % 3600) / 60);
-		if(downtime_minutes < 10) { downtime_minutes = "0" + downtime_minutes }
-		downtime_seconds = parseFloat((a_downtime % 3600) % 60).toFixed(0);
-		if(downtime_seconds < 10) { downtime_seconds = "0" + downtime_seconds }
+		if(a_downtime > 0){
+			downtime_hours = Math.floor(a_downtime / 3600);
+			if(downtime_hours < 10) { downtime_hours = "0" + downtime_hours }
+			downtime_minutes = Math.floor((a_downtime % 3600) / 60);
+			if(downtime_minutes < 10) { downtime_minutes = "0" + downtime_minutes }
+			downtime_seconds = parseFloat((a_downtime % 3600) % 60).toFixed(0);
+			if(downtime_seconds < 10) { downtime_seconds = "0" + downtime_seconds }
 				
-		doc_gameActive.innerHTML = "starts in " + downtime_hours + ":" + downtime_minutes + ":" + downtime_seconds;
+			doc_gameActive.innerHTML = "Starts in " + downtime_hours + ":" + downtime_minutes + ":" + downtime_seconds;
+		} else {
+			doc_gameActive.innerHTML = "Ready to start!";
+		}
 	}
 }
 
