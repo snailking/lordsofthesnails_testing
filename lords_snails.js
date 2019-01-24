@@ -693,7 +693,7 @@ function checkSnailOwner(_id){
 
 //Update snail cost
 function updateSnailCost(_id){
-	a_snailCost[_id] = a_snailLevel[_id] + 1) * 0.02;
+	a_snailCost[_id] = (a_snailLevel[_id] + 1) * 0.02;
 }
 
 //Check lord cost
