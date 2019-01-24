@@ -82,6 +82,8 @@ var timeNow;
 var a_contractBalance;
 var a_gameRound;
 var a_gameActive = false;
+var a_nextRoundStart;
+var a_downtime;
 var a_roundPot;
 var a_snailPot;
 var a_thronePot;
@@ -228,10 +230,10 @@ function dateLog(_blockNumber) {
 
 //Unique check for prelaunch
 function checkLaunch(){
-	//var blocktime = Math.round((new Date()).getTime() / 1000); //current blocktime should be Unix timestamp
-	//if(blocktime < timeLaunch){
+	var blocktime = Math.round((new Date()).getTime() / 1000); //current blocktime should be Unix timestamp
+	if(blocktime < timeLaunch){
 		prelaunch_modal.style.display = "none";
-	//}
+	}
 }
 */	
 //Time since last flip, converted to text
@@ -290,6 +292,24 @@ function timeSinceClaim(){
 		doc_timeSinceClaim.innerHTML += "A few moments ";
 	}	
 }
+
+//Downtime count
+function countDowntime(){
+	if(a_gameActive == false){
+		var blocktime = Math.round((new Date()).getTime() / 1000); //current blocktime should be Unix timestamp
+		a_downtime = blocktime - a_nextRoundStart;
+		
+		downtime_hours = Math.floor(a_downtime / 3600);
+		if(downtime_hours < 10) { downtime_hours = "0" + downtime_hours }
+		downtime_minutes = Math.floor((a_downtime % 3600) / 60);
+		if(downtime_minutes < 10) { downtime_minutes = "0" + downtime_minutes }
+		downtime_seconds = parseFloat((a_downtime % 3600) % 60).toFixed(0);
+		if(downtime_seconds < 10) { downtime_seconds = "0" + downtime_seconds }
+				
+		doc_gameActive.innerHTML = "starts in " + downtime_hours + ":" + downtime_minutes + ":" + downtime_seconds;
+	}
+}
+
 //Fill up the field with player pecans
 function maxField(){
 	f_pecan = a_playerPecan;
@@ -300,6 +320,7 @@ function maxField(){
 
 function initUpdate(){
 	mainUpdate();
+	fastUpdate();
 }	
 
 function mainUpdate(){
@@ -307,6 +328,8 @@ function mainUpdate(){
 	updateContractBalance();
 	updateGameRound();
 	updateGameActive();
+	updateNextRoundStart();
+	countDowntime();
 	updateSnailPot();
 	updateRoundPot();
 	updateThronePot();
@@ -328,15 +351,10 @@ function mainUpdate(){
 	//runLog();
 	setTimeout(mainUpdate, 4000);
 }
-/*
+
 function fastUpdate(){
-	updateField();
-	fastupdateRootPecan();
-	fastupdateEtherShare();
-	fastupdatePecanShare();
-	computeWonkWonk();
-	//prelaunchTimer();
-	setTimeout(fastUpdate, 100);
+	countDowntime();
+	setTimeout(fastUpdate, 1000);
 }
 
 //Refreshes leaderboard
@@ -479,6 +497,10 @@ function updateText(){
 	doc_playerBalance.innerHTML = a_playerBalance;
 	doc_playerEgg.innerHTML = a_playerEgg;
 	doc_winReq.innerHTML = a_gameRound * 1000000;
+	
+	if(a_gameActive == true){
+		doc_gameActive.innerHTML = "active!";
+	}
 	
 	doc_snailLevel0.innerHTML = a_snailLevel[0];
 	doc_snailLevel1.innerHTML = a_snailLevel[1];
@@ -636,6 +658,13 @@ function updateGameRound(){
 function updateGameActive(){
 	gameActive(function(result){
 		a_gameActive = result;
+	});
+}
+
+//Next round start
+function updateNextRoundStart(){
+	nextRoundStart(function(result){
+		a_nextRoundStart = result;
 	});
 }
 
