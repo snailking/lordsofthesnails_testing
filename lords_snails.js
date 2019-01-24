@@ -85,7 +85,7 @@ var a_gameActive = false;
 var a_roundPot;
 var a_snailPot;
 var a_thronePot;
-var a_leader;
+var a_leader = "";
 var a_leaderEgg;
 var a_lastFlip;
 var a_timeSinceFlip;
