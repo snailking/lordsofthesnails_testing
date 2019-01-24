@@ -356,7 +356,7 @@ function fastUpdate(){
 	countDowntime();
 	setTimeout(fastUpdate, 1000);
 }
-
+/*
 //Refreshes leaderboard
 function refreshDataSlow(){
 	
