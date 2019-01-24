@@ -95,6 +95,7 @@ var a_timeSinceClaim;
 var a_claimBonus;
 var a_playerBalance;
 var a_playerEgg = 0;
+var a_snagCost = 0.002;
 var a_snailLevel = [1, 2, 3, 4, 5, 6, 7, 8];
 var a_snailCost = [0.01, 0.02, 0.03, 0.04, 0.04, 0.04, 0.12, 0.04];
 var a_snailEgg = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -811,7 +812,7 @@ function webSnagEgg(_id){
 
 //Become lord
 function webBecomeLord(_id){
-	var weitospend = web3.toWei(a_leaderCost[_id],'ether');
+	var weitospend = web3.toWei(a_lordCost[_id],'ether');
 	BecomeLord(_id, weitospend, function(){
 	});
 }
