@@ -90,6 +90,9 @@ var a_leaderEgg;
 var a_lastFlip;
 var a_timeSinceFlip;
 var a_flipBonus;
+var a_lastClaim;
+var a_timeSinceClaim;
+var a_claimBonus;
 var a_playerBalance;
 var a_playerEgg = 0;
 var a_snailLevel = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -112,6 +115,8 @@ var doc_leaderEgg = document.getElementById('leaderegg');
 var doc_winReq = document.getElementById('winreq');
 var doc_timeSinceFlip = document.getElementById('timesinceflip');
 var doc_flipBonus = document.getElementById('flipbonus');
+var doc_timeSinceClaim = document.getElementById('timesinceclaim');
+var doc_claimBonus = document.getElementById('claimbonus');
 var doc_playerBalance = document.getElementById('playerbalance');
 var doc_playerEgg = document.getElementById('playeregg');
 
@@ -256,7 +261,34 @@ function timeSinceFlip(){
 		doc_timeSinceFlip.innerHTML += "A few moments ";
 	}	
 }
-
+//Time since last claim, converted to text
+function timeSinceClaim(){
+	var blocktime = Math.round((new Date()).getTime() / 1000); //current blocktime should be Unix timestamp
+	a_timeSinceClaim = blocktime - a_lastClaim;
+	a_claimBonus = Math.floor(a_timeSinceClaim / 60); //1% per minute
+	
+	downtime_hours = Math.floor(a_timeSinceClaim / 3600);
+	downtime_minutes = Math.floor((a_timeSinceClaim % 3600) / 60);
+	//downtime_seconds = parseFloat((a_timeSincePlayerClaim % 3600) % 60).toFixed(0);
+	
+	doc_timeSinceClaim.innerHTML = "";
+	
+	if(downtime_hours > 0){
+		doc_timeSinceClaim.innerHTML = downtime_hours + " Hours ";
+		if(downtime_hours == 1){
+			doc_timeSinceClaim.innerHTML = downtime_hours + " Hour ";
+		}
+	}
+	if(downtime_minutes == 1){
+		doc_timeSinceClaim.innerHTML += downtime_minutes + " Minute ";
+	}
+	if(downtime_minutes > 1){
+		doc_timeSinceClaim.innerHTML += downtime_minutes + " Minutes ";
+	} 
+	if(downtime_hours == 0 && downtime_minutes == 0){
+		doc_timeSinceClaim.innerHTML += "A few moments ";
+	}	
+}
 //Fill up the field with player pecans
 function maxField(){
 	f_pecan = a_playerPecan;
@@ -281,6 +313,8 @@ function mainUpdate(){
 	updateLeaderEgg();
 	updateLastFlip();
 	timeSinceFlip();
+	updateLastClaim();
+	timeSinceClaim();
 	updatePlayerBalance();
 	updatePlayerEgg();
 	runLoop(checkSnailLevel);
@@ -437,9 +471,10 @@ function updateText(){
 	doc_snailPot.innerHTML = a_snailPot;
 	doc_roundPot.innerHTML = a_roundPot;
 	doc_thronePot.innerHTML = a_thronePot;
-	doc_leader.innerHTML = a_leader;
+	doc_leader.innerHTML = formatEthAdr(a_leader);
 	doc_leaderEgg.innerHTML = a_leaderEgg;
 	doc_flipBonus.innerHTML = a_flipBonus;
+	doc_claimBonus.innerHTML = a_claimBonus;
 	doc_playerBalance.innerHTML = a_playerBalance;
 	doc_playerEgg.innerHTML = a_playerEgg;
 	doc_winReq.innerHTML = a_gameRound * 1000000;
@@ -645,6 +680,13 @@ function updateLastFlip(){
 	});
 }
 
+//Last Become action globally
+function updateLastClaim(){
+	lastLordFlip(function(result) {
+		a_lastClaim = result;
+	});
+}
+
 //Current player balance
 function updatePlayerBalance(){
 	GetPlayerBalance(m_account, function(result) {
@@ -672,8 +714,6 @@ function checkSnailLevel(_id){
 		a_snailLevel[_id] = web3.toDecimal(result);
 	});
 }
-
-
 
 //Check snail eggs
 function checkSnailEgg(_id){
