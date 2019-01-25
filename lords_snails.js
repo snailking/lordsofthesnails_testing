@@ -393,7 +393,7 @@ function showLeaderboard() {
 	for(i = 1; i < 6; i++) {
 		for(j = 0; j < 5; j++) {
 			if(d_leaderboard[j].rank == i) {
-				leaderboardArray[i].innerHTML = formatEthAdr(d_leaderboard[j].address) + "<br>" + d_leaderboard[j].egg) + " Eggs";
+				leaderboardArray[i].innerHTML = formatEthAdr(d_leaderboard[j].address) + "<br>" + d_leaderboard[j].egg + " Eggs";
 			}
 		}
 	}
