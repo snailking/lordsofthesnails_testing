@@ -477,7 +477,7 @@ function updateText(){
 	doc_contractBalance.innerHTML = a_contractBalance;
 	doc_gameRound.innerHTML = a_gameRound;
 	doc_snailPot.innerHTML = a_snailPot;
-	doc_roundPot.innerHTML = a_roundPot;
+
 	doc_thronePot.innerHTML = a_thronePot;
 	doc_leader.innerHTML = formatEthAdr(a_leader);
 	doc_leaderEgg.innerHTML = a_leaderEgg;
@@ -485,12 +485,14 @@ function updateText(){
 	doc_claimBonus.innerHTML = a_claimBonus;
 	doc_playerBalance.innerHTML = a_playerBalance;
 	doc_playerEgg.innerHTML = a_playerEgg;
-	doc_winReq.innerHTML = a_gameRound * 1000000;
+
 	
 	if(a_gameActive == true){
 		doc_gameRound.innerHTML = a_gameRound;
 		doc_gameActive.innerHTML = "is active!";
 		doc_gameText.innerHTML = "Grab Snails and Snag Eggs to Win the Prize!";
+		doc_roundPot.innerHTML = a_roundPot;
+		doc_winReq.innerHTML = a_gameRound * 1000000;
 		
 		doc_snailLevel0.innerHTML = a_snailLevel[0];
 		doc_snailLevel1.innerHTML = a_snailLevel[1];
@@ -540,6 +542,8 @@ function updateText(){
 	} else {
 		doc_gameRound.innerHTML = (a_gameRound + 1);
 		doc_gameText.innerHTML = "Become a Lord to own their Snail next round!";
+		doc_roundPot.innerHTML = formatEthValue(a_snailPot / 10);
+		doc_winReq.innerHTML = (a_gameRound + 1) * 1000000;
 		
 		doc_lordCost0.innerHTML = a_lordCost[0];
 		doc_lordCost1.innerHTML = a_lordCost[1];
