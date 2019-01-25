@@ -271,7 +271,7 @@ function timeSinceFlip(){
 function timeSinceClaim(){
 	var blocktime = Math.round((new Date()).getTime() / 1000); //current blocktime should be Unix timestamp
 	a_timeSinceClaim = blocktime - a_lastClaim;
-	a_claimBonus = Math.floor(a_timeSinceClaim / 60); //1% per minute
+	a_claimBonus = a_timeSinceClaim * 4 * a_gameRound; //4 per second per round
 	
 	downtime_hours = Math.floor(a_timeSinceClaim / 3600);
 	downtime_minutes = Math.floor((a_timeSinceClaim % 3600) / 60);
