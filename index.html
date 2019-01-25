@@ -16,8 +16,19 @@
 	<body>
 		<!-- TITLE -->
 		<div class="jumbotron border6" align="center">
-			<h1>LORDS OF THE SNAILS</h1>
-			<h1 class="black-shadow">Grab and Snag your way to the jackpot</h1>
+			<img src="img/logo.png">
+			<h2>Hottest Potatoes since the Battle of Troy</h1>
+			<div class="snail">
+				<a href="#info"><img height="64" src="img/question_circle.png"></a>
+				<a href="https://etherscan.io/address/0x1199e1C21C89bF9653DC2996fed7168A6B587655" target="_blank"><img height="64" src="img/contract_circle.png"></a>
+				<a href="https://discord.gg/JU8P4Ru" target="_blank"><img height="64" src="img/discord_circle.png"></a>
+				<a href="https://twitter.com/EtherSnailFarm" target="_blank"><img height="64" src="img/twitter_circle.png"></a>
+				<a href="https://reddit.com/r/snailthrone" target="_blank"><img height="64" src="img/reddit_circle.png"></a>
+				<a href="https://medium.com/@thesnailking/snailtree-a-catastrophe-on-the-blockchain-9c57e5409252" target="_blank"><img height="64" src="img/medium_circle.png"></a>
+				<a href="https://t.me/snailthrone" target="_blank"><img height="64" src="img/telegram_circle.png"></a>
+				<a href="https://snailking.github.io/snailthrone" target="_blank"><img height="64" src="img/snailthrone_circle.png"></a>
+			</div>
+
 		</div>
 		<br>
 		<!-- ROUND INFO -->
@@ -45,21 +56,13 @@
 				<div class="col-sm">
 					<h3 align="center">LEADERBOARD (mockup)</h3>
 					<div class="snail">
-						<p>#1: 0xsnailman, 448000 Eggs</p>
-						<p>#2: 0xsnailgal, 224000 Eggs</p>
-						<p>#3: 0xsnailboy, 112000 Eggs</p>
-						<p>#4: 0xsnaillad, 56000 Eggs</p>
-						<p>#5: 0xsnailguy, 28000 Eggs</p>
+						<h5><span id="leaderboard">Waiting for leaders...</span></h5>
 					</div>
 				</div>
 				<div class="col-sm">
 					<h3 align="center">EVENTS (mockup)</h3>
-					<div class="snail">
-						<p>[12:12:12] Something happened</p>
-						<p>[13:13:13] Something happened again</p>
-						<p>[13:13:13] Something happened again</p>
-						<p>[13:13:13] Something happened again</p>
-						<p>[13:13:13] Something happened again</p>
+					<div class="snail scroll-box" id="logboxscroll">
+						<h5><span id="eventlog">Waiting for events... <button type="button" onclick="runLog()">CLICK TO LOAD PAST EVENTS</button></span></h5>
 					</div>
 				</div>
 			</div>
@@ -72,7 +75,7 @@
 					<div class="snail achilles">
 						<button class="btn btn-lg btn-success" onclick="webGrabSnail(0)">GRAB</button>
 						<h5>Cost: <span id="snailcost0">?</span> ETH</h5>
-						<h5>Reward: 348085 Eggs</h5>
+						<h5>Reward: <span id="grabreward0">?</span> Eggs</h5>
 						<br><br><br><br>
 						<h5>Owner: <span id="snailowner0">?</span></h5>
 						<h5>Eggs: <span id="snailegg0">?</span></h5>
@@ -84,7 +87,7 @@
 					<div class="snail daedalus">
 						<button class="btn btn-lg btn-success" onclick="webGrabSnail(1)">GRAB</button>
 						<h5>Cost: <span id="snailcost1">?</span> ETH</h5>
-						<h5>Reward: 344444 Eggs</h5>
+						<h5>Reward: <span id="grabreward1">?</span> Eggs</h5>
 						<br><br><br><br>
 						<h5>Owner: <span id="snailowner1">?</span></p>
 						<h5>Eggs: <span id="snailegg1">?</span></h5>
@@ -96,7 +99,7 @@
 					<div class="snail heracles">
 						<button class="btn btn-lg btn-success" onclick="webGrabSnail(2)">GRAB</button>
 						<h5>Cost: <span id="snailcost2">?</span> ETH</h5>
-						<h5>Reward: 344444 Eggs</h5>
+						<h5>Reward: <span id="grabreward2">?</span> Eggs</h5>
 						<br><br><br><br>
 						<h5>Owner: <span id="snailowner2">?</span></p>
 						<h5>Eggs: <span id="snailegg2">?</span></h5>
@@ -108,7 +111,7 @@
 					<div class="snail icarus">
 						<button class="btn btn-lg btn-success" onclick="webGrabSnail(3)">GRAB</button>
 						<h5>Cost: <span id="snailcost3">?</span> ETH</h5>
-						<h5>Reward: 344444 Eggs</h5>
+						<h5>Reward: <span id="grabreward3">?</span> Eggs</h5>
 						<br><br><br><br>
 						<h5>Owner: <span id="snailowner3">?</span></p>
 						<h5>Eggs: <span id="snailegg3">?</span></h5>
@@ -130,7 +133,7 @@
 					<div class="snail jason">
 						<button class="btn btn-lg btn-success" onclick="webGrabSnail(4)">GRAB</button>
 						<h5>Cost: <span id="snailcost4">?</span> ETH</h5>
-						<h5>Reward: 348085 Eggs</h5>
+						<h5>Reward: <span id="grabreward4">?</span> Eggs</h5>
 						<br><br><br><br>
 						<h5>Owner: <span id="snailowner4">?</span></h5>
 						<h5>Eggs: <span id="snailegg4">?</span></h5>
@@ -142,7 +145,7 @@
 					<div class="snail odysseus">
 						<button class="btn btn-lg btn-success" onclick="webGrabSnail(5)">GRAB</button>
 						<h5>Cost: <span id="snailcost5">?</span> ETH</h5>
-						<h5>Reward: 344444 Eggs</h5>
+						<h5>Reward: <span id="grabreward5">?</span> Eggs</h5>
 						<br><br><br><br>
 						<h5>Owner: <span id="snailowner5">?</span></p>
 						<h5>Eggs: <span id="snailegg5">?</span></h5>
@@ -154,7 +157,7 @@
 					<div class="snail perseus">
 						<button class="btn btn-lg btn-success" onclick="webGrabSnail(6)">GRAB</button>
 						<h5>Cost: <span id="snailcost6">?</span> ETH</h5>
-						<h5>Reward: 344444 Eggs</h5>
+						<h5>Reward: <span id="grabreward6">?</span> Eggs</h5>
 						<br><br><br><br>
 						<h5>Owner: <span id="snailowner6">?</span></p>
 						<h5>Eggs: <span id="snailegg6">?</span></h5>
@@ -166,7 +169,7 @@
 					<div class="snail theseus">
 						<button class="btn btn-lg btn-success" onclick="webGrabSnail(7)">GRAB</button>
 						<h5>Cost: <span id="snailcost7">?</span> ETH</h5>
-						<h5>Reward: 344444 Eggs</h5>
+						<h5>Reward: <span id="grabreward7">?</span> Eggs</h5>
 						<br><br><br><br>
 						<h5>Owner: <span id="snailowner7">?</span></p>
 						<h5>Eggs: <span id="snailegg7">?</span></h5>
@@ -306,7 +309,7 @@
 		</div>
 		<br>
 		<!-- QUICK START -->
-		<div class="jumbotron">
+		<div id="info" class="jumbotron">
 			<h3 align="center">QUICK START</h3><br>
 			<h5>Lords of the Snails is a hot potato game played in rounds.</h5>
 			<h5>Get enough Eggs to earn the prize.</h5>
@@ -425,6 +428,15 @@
 			<br>
 			<h6>You read that right! SnailThrone players get to enjoy a good share of the profits.</h6>
 			<br>
+			<div class="row">
+				<div class="col-sm">
+				</div>
+				<div class="col-sm-1 snail" align="center">
+					<a href="#top"><img height="48" src="img/arrow_circle.png"></a>
+				</div>
+				<div class="col-sm">
+				</div>
+			</div>
 		</div>
 		<!-- JAVASCRIPT -->
 		<script src="lords_snails.js"></script>				

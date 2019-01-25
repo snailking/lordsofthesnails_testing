@@ -60,7 +60,7 @@ window.onclick = function(event) {
 }
 
 /* PAST EVENT LOG */
-/*
+
 var timeLaunch = 1546099245;
 var launchBlock = 6974738;
 
@@ -80,7 +80,7 @@ checkBlock();
 var timeNow;
 
 var a_contractBalance;
-var a_gameRound;
+var a_gameRound = 0;
 var a_gameActive = false;
 var a_nextRoundStart;
 var a_downtime;
@@ -107,6 +107,7 @@ var a_lordOwner = ["", "", "", "", "", "", "", ""];
 
 var m_account = "waiting for web3";
 
+
 var doc_contractBalance = document.getElementById('contractbalance');
 var doc_gameRound = document.getElementById('gameround');
 var doc_gameActive = document.getElementById('gameactive');
@@ -122,6 +123,7 @@ var doc_timeSinceClaim = document.getElementById('timesinceclaim');
 var doc_claimBonus = document.getElementById('claimbonus');
 var doc_playerBalance = document.getElementById('playerbalance');
 var doc_playerEgg = document.getElementById('playeregg');
+var doc_leaderboard = document.getElementById('leaderboard');
 
 var doc_snailLevel0 = document.getElementById('snaillevel0');
 var doc_snailLevel1 = document.getElementById('snaillevel1');
@@ -159,6 +161,15 @@ var doc_snailOwner5 = document.getElementById('snailowner5');
 var doc_snailOwner6 = document.getElementById('snailowner6');
 var doc_snailOwner7 = document.getElementById('snailowner7');
 
+var doc_grabReward0 = document.getElementById('grabreward0');
+var doc_grabReward1 = document.getElementById('grabreward1');
+var doc_grabReward2 = document.getElementById('grabreward2');
+var doc_grabReward3 = document.getElementById('grabreward3');
+var doc_grabReward4 = document.getElementById('grabreward4');
+var doc_grabReward5 = document.getElementById('grabreward5');
+var doc_grabReward6 = document.getElementById('grabreward6');
+var doc_grabReward7 = document.getElementById('grabreward7');
+
 var doc_lordCost0 = document.getElementById('lordcost0');
 var doc_lordCost1 = document.getElementById('lordcost1');
 var doc_lordCost2 = document.getElementById('lordcost2');
@@ -178,13 +189,13 @@ var doc_lordOwner6 = document.getElementById('lordowner6');
 var doc_lordOwner7 = document.getElementById('lordowner7');
 
 //Leaderboard Array
-/*
+
 var d_leaderboard = [
-	{ address: "0x0000000022223333444455556666777788889999", tree: 0, pecan: 0, rank: 1 },
-	{ address: "0x0000111122223333444455556666777788889999", tree: 0, pecan: 0, rank: 2 },
-	{ address: "0x0000222222223333444455556666777788889999", tree: 0, pecan: 0, rank: 3 },
-	{ address: "0x0000333322223333444455556666777788889999", tree: 0, pecan: 0, rank: 4 },
-	{ address: "0x0000444422223333444455556666777788889999", tree: 0, pecan: 0, rank: 5 }
+	{ address: "0x0000000022223333444455556666777788889999", egg: 0, rank: 1 },
+	{ address: "0x0000111122223333444455556666777788889999", egg: 0, rank: 2 },
+	{ address: "0x0000222222223333444455556666777788889999", egg: 0, rank: 3 },
+	{ address: "0x0000333322223333444455556666777788889999", egg: 0, rank: 4 },
+	{ address: "0x0000444422223333444455556666777788889999", egg: 0, rank: 5 }
 ];	
 
 /* UTILITIES */
@@ -210,7 +221,7 @@ function formatEthAdr(adr){
 function numberWithSpaces(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 }
-/*
+
 //Conversion of Date to hh:mm:ss
 var datetext;
 
@@ -228,14 +239,6 @@ function dateLog(_blockNumber) {
 	datetext = datetext.split(' ')[0];
 }
 
-//Unique check for prelaunch
-function checkLaunch(){
-	var blocktime = Math.round((new Date()).getTime() / 1000); //current blocktime should be Unix timestamp
-	if(blocktime < timeLaunch){
-		prelaunch_modal.style.display = "none";
-	}
-}
-*/	
 //Time since last flip, converted to text
 function timeSinceFlip(){
 	var blocktime = Math.round((new Date()).getTime() / 1000); //current blocktime should be Unix timestamp
@@ -325,6 +328,7 @@ function maxField(){
 function initUpdate(){
 	mainUpdate();
 	fastUpdate();
+	slowUpdate();
 }	
 
 function mainUpdate(){
@@ -360,42 +364,29 @@ function fastUpdate(){
 	countDowntime();
 	setTimeout(fastUpdate, 1000);
 }
-/*
+
 //Refreshes leaderboard
-function refreshDataSlow(){
+function slowUpdate(){
 	
-	checkLeaderTree0();
-	checkLeaderTree1();
-	checkLeaderTree2();
-	checkLeaderTree3();
-	checkLeaderTree4();
-	
-	checkLeaderPecan0();
-	checkLeaderPecan1();
-	checkLeaderPecan2();
-	checkLeaderPecan3();
-	checkLeaderPecan4();
+	checkLeaderEgg0();
+	checkLeaderEgg1();
+	checkLeaderEgg2();
+	checkLeaderEgg3();
+	checkLeaderEgg4();
 	
 	slowupdateLeaderboard();
 	showLeaderboard();
 	
-	setTimeout(refreshDataSlow, 30000);
+	setTimeout(slowUpdate, 30000);
 }
-
-var leaderboardArray = [];
-leaderboardArray[0] = 0;
-leaderboardArray[1] = document.getElementById('treelord1');
-leaderboardArray[2] = document.getElementById('treelord2');
-leaderboardArray[3] = document.getElementById('treelord3');
-leaderboardArray[4] = document.getElementById('treelord4');
-leaderboardArray[5] = document.getElementById('treelord5');
 
 //Show Leaderboard
 function showLeaderboard() {
+	doc_leaderboard.innerHTML = "";
 	for(i = 1; i < 6; i++) {
 		for(j = 0; j < 5; j++) {
 			if(d_leaderboard[j].rank == i) {
-				leaderboardArray[i].innerHTML = formatEthAdr(d_leaderboard[j].address) + "<br>" + numberWithSpaces(d_leaderboard[j].tree) + " Tree Size <br>" + numberWithSpaces(d_leaderboard[j].pecan) + " Pecans <br>";
+				doc_leaderboard[i].innerHTML += "#" + d_leaderboard[j].rank + " = " + formatEthAdr(d_leaderboard[j].address) + " | " + d_leaderboard[j].egg + " Eggs<br>";
 			}
 		}
 	}
@@ -406,13 +397,13 @@ function slowupdateLeaderboard() {
 	//Loop through Trees and store top ones to assign ranks
 	var avoidNext = [0, 0, 0, 0, 0];
 	for(k = 1; k < 6; k++) {
-		var topTree = -1;
+		var topEgg = -1;
 		var topGuy = 0;
 		for(j = 0; j < 5; j++) {
 			if(avoidNext[j] != 1){
 				////console.log("avoidNext[" + j + "] evaluated to != 1");
-				if(d_leaderboard[j].tree > topTree){
-					topTree = d_leaderboard[j].tree;
+				if(d_leaderboard[j].egg > topEgg){
+					topEgg = d_leaderboard[j].egg;
 					topGuy = j;
 				}
 			}
@@ -421,72 +412,41 @@ function slowupdateLeaderboard() {
 		////console.log("New rank " + k + " : " + d_leaderboard[topGuy].address);
 		avoidNext[topGuy] = 1;
 		////console.log("Next time, avoid indice " + topGuy);
-	}
-	
+	}	
 	showLeaderboard();
 }
 
 //Ugly Leaderboard updates. Can't seem to get a loop working for these web3 calls due to delays
-function checkLeaderTree0(){
-	GetTree(d_leaderboard[0].address, function(result) {
-		d_leaderboard[0].tree = result;
+function checkLeaderEgg0(){
+	GetPlayerEgg(d_leaderboard[0].address, function(result) {
+		d_leaderboard[0].egg = result;
 	});
 }
 
-function checkLeaderTree1(){
-	GetTree(d_leaderboard[1].address, function(result) {
-		d_leaderboard[1].tree = result;
+function checkLeaderEgg1(){
+	GetPlayerEgg(d_leaderboard[1].address, function(result) {
+		d_leaderboard[1].egg = result;
 	});
 }
 
-function checkLeaderTree2(){
-	GetTree(d_leaderboard[2].address, function(result) {
-		d_leaderboard[2].tree = result;
+function checkLeaderEgg2(){
+	GetPlayerEgg(d_leaderboard[2].address, function(result) {
+		d_leaderboard[2].egg = result;
 	});
 }
 
-function checkLeaderTree3(){
-	GetTree(d_leaderboard[3].address, function(result) {
-		d_leaderboard[3].tree = result;
+function checkLeaderEgg3(){
+	GetPlayerEgg(d_leaderboard[3].address, function(result) {
+		d_leaderboard[3].egg = result;
 	});
 }
 
-function checkLeaderTree4(){
-	GetTree(d_leaderboard[4].address, function(result) {
-		d_leaderboard[4].tree = result;
+function checkLeaderEgg4(){
+	GetPlayerEgg(d_leaderboard[4].address, function(result) {
+		d_leaderboard[4].egg = result;
 	});
 }
 
-function checkLeaderPecan0(){
-	GetPecan(d_leaderboard[0].address, function(result) {
-		d_leaderboard[0].pecan = result;
-	});
-}
-
-function checkLeaderPecan1(){
-	GetPecan(d_leaderboard[1].address, function(result) {
-		d_leaderboard[1].pecan = result;
-	});
-}
-
-function checkLeaderPecan2(){
-	GetPecan(d_leaderboard[2].address, function(result) {
-		d_leaderboard[2].pecan = result;
-	});
-}
-
-function checkLeaderPecan3(){
-	GetPecan(d_leaderboard[3].address, function(result) {
-		d_leaderboard[3].pecan = result;
-	});
-}
-
-function checkLeaderPecan4(){
-	GetPecan(d_leaderboard[4].address, function(result) {
-		d_leaderboard[4].pecan = result;
-	});
-}
-*/
 //Updates all text from web3 calls
 function updateText(){
 	doc_contractBalance.innerHTML = a_contractBalance;
@@ -541,6 +501,15 @@ function updateText(){
 	doc_snailOwner5.innerHTML = formatEthAdr(a_snailOwner[5]);
 	doc_snailOwner6.innerHTML = formatEthAdr(a_snailOwner[6]);
 	doc_snailOwner7.innerHTML = formatEthAdr(a_snailOwner[7]);
+	
+	doc_grabReward0.innerHTML = a_snailEgg[0] * (a_flipBonus + 100) / 100;
+	doc_grabReward1.innerHTML = a_snailEgg[1] * (a_flipBonus + 100) / 100;
+	doc_grabReward2.innerHTML = a_snailEgg[2] * (a_flipBonus + 100) / 100;
+	doc_grabReward3.innerHTML = a_snailEgg[3] * (a_flipBonus + 100) / 100;
+	doc_grabReward4.innerHTML = a_snailEgg[4] * (a_flipBonus + 100) / 100;
+	doc_grabReward5.innerHTML = a_snailEgg[5] * (a_flipBonus + 100) / 100;
+	doc_grabReward6.innerHTML = a_snailEgg[6] * (a_flipBonus + 100) / 100;
+	doc_grabReward7.innerHTML = a_snailEgg[7] * (a_flipBonus + 100) / 100;
 	
 	doc_lordCost0.innerHTML = a_lordCost[0];
 	doc_lordCost1.innerHTML = a_lordCost[1];
@@ -661,7 +630,11 @@ function updateGameRound(){
 //State of the game
 function updateGameActive(){
 	gameActive(function(result){
-		a_gameActive = result;
+		if(result == true){
+			a_gameActive = true;
+		} else {
+			a_gameActive = false;
+		}
 	});
 }
 
@@ -785,44 +758,7 @@ function checkLordOwner(_id){
 }
 
 /* WEB3 TRANSACTIONS */
-/*
-//Check number of Pecans isn't above player max
-function webCheckPecan(){
-	if(f_pecan > a_playerPecan){
-		maxField();
-		pecan_modal.style.display = "block";
-	} else {
-		webGivePecan();
-	}
-}
 
-//Give pecan
-function webGivePecan(){
-	GivePecan(f_pecan, function(){
-	});
-}
-
-//On other actions, make sure the player has already planted a root 
-function webCheckRoot(_func){
-	if(a_playerTree == 0){
-		root_modal.style.display = "block";
-	} else {
-		_func();
-	}
-}
-
-//Check first if player doesn't have too much unclaimed ETH
-//Also make sure player is spending at least 0.001 ETH
-function webCheckClaim(){
-	if(a_playerEtherShare > 0.0001){
-		claim_modal.style.display = "block";
-	} else if(f_root < 0.001) {
-		toolow_modal.style.display = "block";
-	} else {
-		webPlantRoot();
-	}
-}
-*/
 //Begin Round
 function webBeginRound(){
 	BeginRound(function(){
@@ -848,17 +784,6 @@ function webBecomeLord(_id){
 	var weitospend = web3.toWei(a_lordCost[_id],'ether');
 	BecomeLord(_id, weitospend, function(){
 	});
-}
-
-//Check first if it has been at least one hour since last player action
-function webCheckTime(){
-	var _now = Math.round((new Date()).getTime() / 1000);
-	var _timeSinceLast = parseFloat(_now - a_playerLastClaim);
-	if(_timeSinceLast < 3800){
-		grow_modal.style.display = "block";
-	} else {
-		webGrowTree();
-	}
 }
 
 //Withdraw balance
@@ -896,9 +821,7 @@ function ComputeEgg(_flip,_id,callback){
 }
 
 
-function round(callback){
-    
-    
+function round(callback){    
     var outputData = myContract.round.getData();
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -914,8 +837,6 @@ function round(callback){
 
 
 function Snag(_id,eth,callback){
-    
-    
     var outputData = myContract.Snag.getData(_id);
     var endstr=web3.eth.sendTransaction({to:contractAddress, from:null, data: outputData,value: eth},
     function(error,result){
@@ -930,9 +851,7 @@ function Snag(_id,eth,callback){
 }
 
 
-function roundPot(callback){
-    
-    
+function roundPot(callback){   
     var outputData = myContract.roundPot.getData();
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -948,8 +867,6 @@ function roundPot(callback){
 
 
 function lastFlip(callback){
-    
-    
     var outputData = myContract.lastFlip.getData();
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -964,9 +881,7 @@ function lastFlip(callback){
 }
 
 
-function GrabSnail(_id,eth,callback){
-    
-    
+function GrabSnail(_id,eth,callback){ 
     var outputData = myContract.GrabSnail.getData(_id);
     var endstr=web3.eth.sendTransaction({to:contractAddress, from:null, data: outputData,value: eth},
     function(error,result){
@@ -982,8 +897,6 @@ function GrabSnail(_id,eth,callback){
 
 
 function PayThrone(callback){
-    
-    
     var outputData = myContract.PayThrone.getData();
     var endstr=web3.eth.sendTransaction({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1062,9 +975,7 @@ function leader(callback){
     });
 }
 
-function snailPot(callback){
-    
-    
+function snailPot(callback){ 
     var outputData = myContract.snailPot.getData();
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1078,10 +989,7 @@ function snailPot(callback){
     });
 }
 
-
-function GetPlayerEgg(_player,callback){
-    
-    
+function GetPlayerEgg(_player,callback){   
     var outputData = myContract.GetPlayerEgg.getData(_player);
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1095,10 +1003,7 @@ function GetPlayerEgg(_player,callback){
     });
 }
 
-
-function ComputeLordBonus(callback){
-    
-    
+function ComputeLordBonus(callback){ 
     var outputData = myContract.ComputeLordBonus.getData();
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1112,10 +1017,7 @@ function ComputeLordBonus(callback){
     });
 }
 
-
-function BeginRound(callback){
-    
-    
+function BeginRound(callback){  
     var outputData = myContract.BeginRound.getData();
     var endstr=web3.eth.sendTransaction({to:contractAddress, from:null, data: outputData, gasLimit: 1000000},
     function(error,result){
@@ -1129,10 +1031,7 @@ function BeginRound(callback){
     });
 }
 
-
-function WithdrawBalance(callback){
-    
-    
+function WithdrawBalance(callback){  
     var outputData = myContract.WithdrawBalance.getData();
     var endstr=web3.eth.sendTransaction({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1146,10 +1045,7 @@ function WithdrawBalance(callback){
     });
 }
 
-
-function GetPlayerBalance(_player,callback){
-    
-    
+function GetPlayerBalance(_player,callback){  
     var outputData = myContract.GetPlayerBalance.getData(_player);
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1163,10 +1059,7 @@ function GetPlayerBalance(_player,callback){
     });
 }
 
-
-function thronePot(callback){
-    
-    
+function thronePot(callback){  
     var outputData = myContract.thronePot.getData();
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1180,10 +1073,7 @@ function thronePot(callback){
     });
 }
 
-
-function GetLordOwner(_id,callback){
-    
-    
+function GetLordOwner(_id,callback){  
     var outputData = myContract.GetLordOwner.getData(_id);
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1197,10 +1087,7 @@ function GetLordOwner(_id,callback){
     });
 }
 
-
-function ComputeSnailCost(_id,callback){
-    
-    
+function ComputeSnailCost(_id,callback){ 
     var outputData = myContract.ComputeSnailCost.getData(_id);
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1215,9 +1102,7 @@ function ComputeSnailCost(_id,callback){
 }
 
 
-function GetSnailSnag(_id,callback){
-    
-    
+function GetSnailSnag(_id,callback){  
     var outputData = myContract.GetSnailSnag.getData(_id);
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1233,8 +1118,6 @@ function GetSnailSnag(_id,callback){
 
 
 function ComputeLordCost(_id,callback){
-    
-    
     var outputData = myContract.ComputeLordCost.getData(_id);
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1249,9 +1132,7 @@ function ComputeLordCost(_id,callback){
 }
 
 
-function nextRoundStart(callback){
-    
-    
+function nextRoundStart(callback){   
     var outputData = myContract.nextRoundStart.getData();
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1266,9 +1147,7 @@ function nextRoundStart(callback){
 }
 
 
-function victoryEgg(callback){
-    
-    
+function victoryEgg(callback){  
     var outputData = myContract.victoryEgg.getData();
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1283,9 +1162,7 @@ function victoryEgg(callback){
 }
 
 
-function GetLordLevel(_id,callback){
-    
-    
+function GetLordLevel(_id,callback){  
     var outputData = myContract.GetLordLevel.getData(_id);
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1299,10 +1176,7 @@ function GetLordLevel(_id,callback){
     });
 }
 
-
-function lastLordFlip(callback){
-    
-    
+function lastLordFlip(callback){  
     var outputData = myContract.lastLordFlip.getData();
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1316,10 +1190,7 @@ function lastLordFlip(callback){
     });
 }
 
-
-function gameActive(callback){
-    
-    
+function gameActive(callback){  
     var outputData = myContract.gameActive.getData();
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1333,15 +1204,8 @@ function gameActive(callback){
     });
 }
 
-
-
-
-
-
-
-
 /* EVENT WATCH */
-/*
+
 //Store transaction hash for each event, and check before executing result, as web3 events fire twice
 var storetxhash = [];
 
@@ -1366,83 +1230,82 @@ function checkHash(txarray, txhash) {
 //Compute Leaderboard
 
 function computeLeaderboard() {
-	var lowest = d_leaderboard[0].tree;
+	var lowest = d_leaderboard[0].egg;
 	var position = 0; 
 	
 	//Check lowest leader
 	var i = 0;
 	for(i = 0; i < 5; i++) {
-		if(d_leaderboard[i].tree < lowest) {
-			lowest = d_leaderboard[i].tree;
+		if(d_leaderboard[i].egg < lowest) {
+			lowest = d_leaderboard[i].egg;
 			position = i;
 		}
 	}
 	
-	//Check if hatcher is already on leaderboard, then check if hatcher can replace lowest
+	//Check if new player is already on leaderboard, then check if new player can replace lowest
 	var notLeader = true;
 	for(k = 0; k < 5; k++) {
 		if(e_size.address == d_leaderboard[k].address) {
 			d_leaderboard[k].address = e_size.address;
-			d_leaderboard[k].tree = e_size.tree;
+			d_leaderboard[k].egg = e_size.egg;
 			notLeader = false;
 		}
 	}
 
 	var newEntry = false;
-	if(notLeader == true && e_size.tree > lowest) {
+	if(notLeader == true && e_size.egg > lowest) {
 		d_leaderboard[position].address = e_size.address;
-		d_leaderboard[position].tree = e_size.tree;
+		d_leaderboard[position].egg = e_size.egg;
 		newEntry = true;
 	}
 }
 
+// Wipe Leaderboard (run this after a "won round" event on Round end
+
+function wipeLeaderboard(){
+	for(i = 0; i < 5; i++) {
+		d_leaderboard[i].address = "0x0000000022223333444455556666777788889999";
+		d_leaderboard[i].egg = 0;
+	}
+}
+
 /* EVENTS */
-/*
+
 var logboxscroll = document.getElementById('logboxscroll');
 var eventlogdoc = document.getElementById("eventlog");
 
-var e_size = { address: "", tree: 0 };
+var e_size = { address: "", egg: 0 };
 
 function runLog(){
 	if(ranLog == false && twoDaysBlock > 0){
 		ranLog = true;
-		myContract.PlantedRoot({}, { fromBlock: launchBlock, toBlock: 'latest' }).get(function(error, result){ // don't forget that extra {} parameter for individual events
-			if(!error){
-				//console.log(result);
-				var j = 0;
-				for(j = 0; j < result.length; j++){
-					if(checkHash(storetxhash, result[j].transactionHash) != 0) {
-						e_size.address = result[j].args.player;
-						e_size.tree =  parseInt(result[j].args.treesize);
-						computeLeaderboard();
-					}
-				}
-			}
-			else{
-				//console.log("problem!");
-			}
-		});
 		myContract.allEvents({ fromBlock: twoDaysBlock, toBlock: 'latest' }).get(function(error, result){
 			if(!error){
 				//console.log(result);
-				var i = 0;
+				var i = 0;				
 				for(i = 0; i < result.length; i++){
 					if(checkHash(storetxhash, result[i].transactionHash) != 0) {
 						dateLog(result[i].blockNumber);
-						if(result[i].event == "GavePecan"){
-							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " gave " + numberWithSpaces(result[i].args.pecan) + " Pecans to Wonkers, and got " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH in exchange!";							
-						} else if(result[i].event == "PlantedRoot"){
-							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " planted a root with " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH. Their tree reaches " + numberWithSpaces(result[i].args.treesize) + " in size.";
-						} else if(result[i].event == "ClaimedShare"){
-							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " claimed their share worth " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH and got " + numberWithSpaces(result[i].args.pecan) + " Pecans.";
-						} else if(result[i].event == "GrewTree"){
-							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " grew their Tree and won " + numberWithSpaces(result[i].args.pecan) + " Pecans. Their boost is " + result[i].args.boost + "x.";
+						if(result[i].event == "WonRound"){
+							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " WON ROUND " + result[i].args.round + "! Their reward: " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH";
+							wipeLeaderboard();
+						} else if(result[i].event == "StartedRound"){
+							eventlogdoc.innerHTML += "<br>[~" + datetext + "] Round " + result[i].args.round + " starts!";
+						} else if(result[i].event == "GrabbedSnail"){
+							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " grabs " + idSnailToName(result[i].args.snail) + " for " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, and gets " + result[i].args.egg + " eggs";
+							computeLeaderboard();
+						} else if(result[i].event == "Snagged"){
+							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " snags " + result[i].args.egg + " from his snail " + idSnailToName(result[i].args.snail);
+							computeLeaderboard();
+						} else if(result[i].event == "BecameLord"){
+							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " becomes the lord " + idLordToName(result[i].args.lord) + "! For their " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, they get " + result[i].args.egg + " eggs";
+							computeLeaderboard();
 						} else if(result[i].event == "WithdrewBalance"){
-							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " withdrew " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH from their balance.";
+							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " withdrew " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH to their wallet.";
 						} else if(result[i].event == "PaidThrone"){
-							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " paid tribute to the SnailThrone! " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH have been sent.";
+							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " paid tribute to the SnailThrone! " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH has been sent.";
 						} else if(result[i].event == "BoostedPot"){
-							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " makes a generous " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH donation to the JackPot.";
+							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " makes a generous " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH donation to the gods.";
 						}
 					logboxscroll.scrollTop = logboxscroll.scrollHeight;
 					}
@@ -1455,41 +1318,43 @@ function runLog(){
 	}
 }
 
-var plantedrootEvent = myContract.PlantedRoot();
+var startedroundEvent = myContract.StartedRound();
 
-plantedrootEvent.watch(function(error, result){
+startedroundEvent.watch(function(error, result){
     if(!error){
-		////////////console.log(result);
+		//console.log(result);
 		if(checkHash(storetxhash, result.transactionHash) != 0) {
 			date24();
-			eventlogdoc.innerHTML += "<br>[" + datetext + "] " + formatEthAdr(result.args.player) + " planted a root with " + formatEthValue2(web3.fromWei(result.args.eth,'ether')) + " ETH. Their tree reaches " + numberWithSpaces(result.args.treesize) + " in size.";
+			eventlogdoc.innerHTML += "<br>[~" + datetext + "] Round " + result[i].args.round + " starts!";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
 		}
 	}
 });
 
-var claimedshareEvent = myContract.ClaimedShare();
+var grabbedsnailEvent = myContract.GrabbedSnail();
 
-claimedshareEvent.watch(function(error, result){
+grabbedsnailEvent.watch(function(error, result){
     if(!error){
-		////////////console.log(result);
+		//console.log(result);
 		if(checkHash(storetxhash, result.transactionHash) != 0) {
 			date24();
-			eventlogdoc.innerHTML += "<br>[" + datetext + "] " + formatEthAdr(result.args.player) + " claimed their share worth " + formatEthValue2(web3.fromWei(result.args.eth,'ether')) + " ETH and got " + numberWithSpaces(result.args.pecan) + " Pecans.";
+			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " grabs " + idSnailToName(result[i].args.snail) + " for " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, and gets " + result[i].args.egg + " eggs";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
+			computeLeaderboard();
 		}
 	}
 });
 
-var grewtreeEvent = myContract.GrewTree();
+var snaggedEvent = myContract.Snagged();
 
-grewtreeEvent.watch(function(error, result){
+snaggedEvent.watch(function(error, result){
     if(!error){
-		////////////console.log(result);
+		//console.log(result);
 		if(checkHash(storetxhash, result.transactionHash) != 0) {
 			date24();
-			eventlogdoc.innerHTML += "<br>[" + datetext + "] " + formatEthAdr(result.args.player) + " grew their Tree and won " + numberWithSpaces(result.args.pecan) + " Pecans. Their boost is " + result.args.boost + "x.";
+			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " snags " + result[i].args.egg + " from his snail " + idSnailToName(result[i].args.snail);
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
+			computeLeaderboard();
 		}
 	}
 });
@@ -1501,23 +1366,22 @@ wonroundEvent.watch(function(error, result){
 		////////////console.log(result);
 		if(checkHash(storetxhash, result.transactionHash) != 0) {
 			date24();
-			eventlogdoc.innerHTML += "<br>[" + datetext + "] " + formatEthAdr(result.args.player) + " WINS ROUND " + result.args.round + " AND EARNS " + formatEthValue2(web3.fromWei(result.args.eth,'ether')) + " ETH!";
+			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " WON ROUND " + result[i].args.round + "! Their reward: " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
 		}
 	}
 });
 
+var becamelordEvent = myContract.BecameLord();
 
-
-var gavepecanEvent = myContract.GavePecan();
-
-gavepecanEvent.watch(function(error, result){
+becamelordEvent.watch(function(error, result){
 	if(!error){
 		////////////console.log(result);
 		if(checkHash(storetxhash, result.transactionHash) != 0) {
 			date24();
-			eventlogdoc.innerHTML += "<br>[" + datetext + "] " + formatEthAdr(result.args.player) + " gave " + numberWithSpaces(result.args.pecan) + " Pecans to Wonkers, and got " + formatEthValue2(web3.fromWei(result.args.eth,'ether')) + " ETH in exchange!";
+			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " becomes the lord " + idLordToName(result[i].args.lord) + "! For their " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, they get " + result[i].args.egg + " eggs";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
+			computeLeaderboard();
 		}
 	}
 });
@@ -1529,7 +1393,7 @@ withdrewbalanceEvent.watch(function(error, result){
 		////////////console.log(result);
 		if(checkHash(storetxhash, result.transactionHash) != 0) {
 			date24();
-			eventlogdoc.innerHTML += "<br>[" + datetext + "] " + formatEthAdr(result.args.player) + " withdrew " + formatEthValue2(web3.fromWei(result.args.eth,'ether')) + " ETH from their balance.";
+			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " withdrew " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH to their wallet.";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
 		}
 	}
@@ -1542,7 +1406,7 @@ paidthroneEvent.watch(function(error, result){
 		////////////console.log(result);
 		if(checkHash(storetxhash, result.transactionHash) != 0) {
 			date24();
-			eventlogdoc.innerHTML += "<br>[" + datetext + "] " + formatEthAdr(result.args.player) + " paid tribute to the SnailThrone! " + formatEthValue2(web3.fromWei(result.args.eth,'ether')) + " ETH have been sent.";
+			eventlogdoc.innerHTML += "<br>[" + datetext + "] " + formatEthAdr(result.args.player) + " paid tribute to the SnailThrone! " + formatEthValue2(web3.fromWei(result.args.eth,'ether')) + " ETH has been sent.";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
 		}
 	}
