@@ -33,7 +33,8 @@
 		<br>
 		<!-- ROUND INFO -->
 		<div class="jumbotron">
-			<h1 align="center">ROUND <span id="gameround">?</span> - <span id="gameactive">?</h1><br>
+			<h1 align="center">ROUND <span id="gameround">?</span> <span id="gameactive">?</h1><br>
+			<h3 align="center"><span id="gametext">?</h3><br>
 			<div class="row">
 				<div class="col-sm" align="left">
 					<h4>Round Prize</h3>
@@ -84,6 +85,7 @@
 			</div>
 		</div><br>
 		<!-- SNAILS -->
+		<div id="interfacesnail">
 		<div class="jumbotron" align="center">
 			<div class="row">
 				<div class="col-sm">
@@ -194,22 +196,9 @@
 				</div>
 			</div>
 		</div>
-		<br>
-		<!-- PLAYER STATS -->
-		<div class="jumbotron border6" align="center">
-			<h2>NEST</h2><br>
-			<div class="row">
-				<div class="col-sm">
-					<h4>You earned <span id="playerbalance">?</span> ETH</h3>
-				</div>
-				<div class="col-sm">
-					<h4>You own <span id="playeregg">?</span> Eggs</h3>
-				</div>
-			</div><br>
-			<button class="btn btn-lg btn-success" onclick="webWithdrawBalance()">WITHDRAW ETH</button>
 		</div>
-		<br>
 		<!-- LORDS -->
+		<div id="interfacelord">
 		<div class="jumbotron" align="center">
 			<div class="row">
 				<div class="col-sm">
@@ -304,9 +293,24 @@
 				</div>
 			</div>
 		</div>
+		</div>
+		<br>
+		<!-- PLAYER STATS -->
+		<div class="jumbotron border6" align="center">
+			<h2>NEST</h2><br>
+			<div class="row">
+				<div class="col-sm">
+					<h4>You earned <span id="playerbalance">?</span> ETH</h3>
+				</div>
+				<div class="col-sm">
+					<h4>You own <span id="playeregg">?</span> Eggs</h3>
+				</div>
+			</div><br>
+			<button class="btn btn-lg btn-success" onclick="webWithdrawBalance()">WITHDRAW ETH</button>
+		</div>
 		<br>
 		<!-- MISC ACTIONS -->
-		<div class="jumbotron border6" align="center">	
+		<div class="jumbotron" align="center">	
 			<h3>MISCELLANEOUS</h3><br>
 			<div class="row">
 				<div class="col-sm">
@@ -325,7 +329,7 @@
 		</div>
 		<br>
 		<!-- QUICK START -->
-		<div id="info" class="jumbotron">
+		<div id="info" class="jumbotron border6">
 			<h3 align="center">QUICK START</h3><br>
 			<h5>Lords of the Snails is a hot potato game played in rounds.</h5>
 			<h5>Get enough Eggs to earn the prize.</h5>
@@ -388,7 +392,7 @@
 		</div>
 		<br>
 		<!-- GAME MECHANICS -->
-		<div class="jumbotron border6">
+		<div class="jumbotron">
 			<h3 align="center">GAME MECHANICS</h3><br>
 			<div class="info">
 				<h4>ROUNDS</h4>

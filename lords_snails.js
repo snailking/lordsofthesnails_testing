@@ -90,7 +90,7 @@ var a_thronePot;
 var a_leader = "";
 var a_leaderEgg;
 var a_lastFlip;
-var a_timeSinceFlip;
+var a_timeSinceGrab;
 var a_flipBonus;
 var a_lastClaim;
 var a_timeSinceClaim;
@@ -117,13 +117,16 @@ var doc_thronePot = document.getElementById('thronepot');
 var doc_leader = document.getElementById('leader');
 var doc_leaderEgg = document.getElementById('leaderegg');
 var doc_winReq = document.getElementById('winreq');
-var doc_timeSinceFlip = document.getElementById('timesinceflip');
+var doc_timeSinceGrab = document.getElementById('timesinceflip');
 var doc_flipBonus = document.getElementById('flipbonus');
 var doc_timeSinceClaim = document.getElementById('timesinceclaim');
 var doc_claimBonus = document.getElementById('claimbonus');
 var doc_playerBalance = document.getElementById('playerbalance');
 var doc_playerEgg = document.getElementById('playeregg');
 var doc_leaderboard = document.getElementById('leaderboard');
+
+var interface_snail = document.getElementById("interfacesnail");
+var interface_lord = document.getElementById("interfacelord");
 
 var doc_snailLevel0 = document.getElementById('snaillevel0');
 var doc_snailLevel1 = document.getElementById('snaillevel1');
@@ -240,31 +243,31 @@ function dateLog(_blockNumber) {
 }
 
 //Time since last flip, converted to text
-function timeSinceFlip(){
+function timeSinceGrab(){
 	var blocktime = Math.round((new Date()).getTime() / 1000); //current blocktime should be Unix timestamp
-	a_timeSinceFlip = blocktime - a_lastFlip;
-	a_flipBonus = Math.floor(a_timeSinceFlip / 60); //1% per minute
+	a_timeSinceGrab = blocktime - a_lastFlip;
+	a_flipBonus = Math.floor(a_timeSinceGrab / 60); //1% per minute
 	
-	downtime_hours = Math.floor(a_timeSinceFlip / 3600);
-	downtime_minutes = Math.floor((a_timeSinceFlip % 3600) / 60);
+	downtime_hours = Math.floor(a_timeSinceGrab / 3600);
+	downtime_minutes = Math.floor((a_timeSinceGrab % 3600) / 60);
 	//downtime_seconds = parseFloat((a_timeSincePlayerClaim % 3600) % 60).toFixed(0);
 	
-	doc_timeSinceFlip.innerHTML = "";
+	doc_timeSinceGrab.innerHTML = "";
 	
 	if(downtime_hours > 0){
-		doc_timeSinceFlip.innerHTML = downtime_hours + " Hours ";
+		doc_timeSinceGrab.innerHTML = downtime_hours + " Hours ";
 		if(downtime_hours == 1){
-			doc_timeSinceFlip.innerHTML = downtime_hours + " Hour ";
+			doc_timeSinceGrab.innerHTML = downtime_hours + " Hour ";
 		}
 	}
 	if(downtime_minutes == 1){
-		doc_timeSinceFlip.innerHTML += downtime_minutes + " Minute ";
+		doc_timeSinceGrab.innerHTML += downtime_minutes + " Minute ";
 	}
 	if(downtime_minutes > 1){
-		doc_timeSinceFlip.innerHTML += downtime_minutes + " Minutes ";
+		doc_timeSinceGrab.innerHTML += downtime_minutes + " Minutes ";
 	} 
 	if(downtime_hours == 0 && downtime_minutes == 0){
-		doc_timeSinceFlip.innerHTML += "A few moments ";
+		doc_timeSinceGrab.innerHTML += "A few moments ";
 	}	
 }
 //Time since last claim, converted to text
@@ -298,7 +301,6 @@ function timeSinceClaim(){
 
 //Downtime count
 function countDowntime(){
-	if(a_gameActive == false){
 		var blocktime = Math.round((new Date()).getTime() / 1000); //current blocktime should be Unix timestamp
 		a_downtime = a_nextRoundStart - blocktime;
 		
@@ -310,11 +312,10 @@ function countDowntime(){
 			downtime_seconds = parseFloat((a_downtime % 3600) % 60).toFixed(0);
 			if(downtime_seconds < 10) { downtime_seconds = "0" + downtime_seconds }
 				
-			doc_gameActive.innerHTML = "Starts in " + downtime_hours + ":" + downtime_minutes + ":" + downtime_seconds;
+			doc_gameActive.innerHTML = "will start in " + downtime_hours + ":" + downtime_minutes + ":" + downtime_seconds;
 		} else {
-			doc_gameActive.innerHTML = "Ready to start!";
+			doc_gameActive.innerHTML = "is ready to start!";
 		}
-	}
 }
 
 //Fill up the field with player pecans
@@ -336,32 +337,37 @@ function mainUpdate(){
 	updateContractBalance();
 	updateGameRound();
 	updateGameActive();
-	updateNextRoundStart();
-	countDowntime();
 	updateSnailPot();
 	updateRoundPot();
 	updateThronePot();
 	updateLeader();
 	updateLeaderEgg();
-	updateLastFlip();
-	timeSinceFlip();
-	updateLastClaim();
-	timeSinceClaim();
 	updatePlayerBalance();
 	updatePlayerEgg();
-	runLoop(checkSnailLevel);
-	runLoop(checkSnailEgg);
-	runLoop(checkSnailOwner);
-	runLoop(updateSnailCost);
-	runLoop(checkLordCost);
-	runLoop(checkLordOwner);
+	updateActiveInterface();
+	if(a_gameActive == true){
+		updateLastGrab();
+		timeSinceGrab();
+		runLoop(checkSnailLevel);
+		runLoop(checkSnailEgg);
+		runLoop(checkSnailOwner);
+		runLoop(updateSnailCost);
+	} else {
+		updateNextRoundStart();
+		updateLastClaim();
+		timeSinceClaim();
+		runLoop(checkLordCost);
+		runLoop(checkLordOwner);
+	}
 	updateText();
 	//runLog();
 	setTimeout(mainUpdate, 4000);
 }
 
 function fastUpdate(){
-	countDowntime();
+	if(a_gameActive != true){
+		countDowntime();
+	}
 	setTimeout(fastUpdate, 1000);
 }
 
@@ -380,6 +386,17 @@ function slowUpdate(){
 	setTimeout(slowUpdate, 30000);
 }
 
+//Shows Snails or Lords depending if round is active or not
+function updateActiveInterface(){
+	if(a_gameActive == true){
+		interface_snail.style.display = "block";
+		interface_lord.style.display = "none";
+	} else {
+		interface_snail.style.display = "none";
+		interface_lord.style.display = "block";
+	}
+}
+		
 var leaderboardArray = [];
 leaderboardArray[0] = 0;
 leaderboardArray[1] = document.getElementById('eggking1');
@@ -470,116 +487,77 @@ function updateText(){
 	doc_winReq.innerHTML = a_gameRound * 1000000;
 	
 	if(a_gameActive == true){
-		doc_gameActive.innerHTML = "active!";
-	}
-	
-	doc_snailLevel0.innerHTML = a_snailLevel[0];
-	doc_snailLevel1.innerHTML = a_snailLevel[1];
-	doc_snailLevel2.innerHTML = a_snailLevel[2];
-	doc_snailLevel3.innerHTML = a_snailLevel[3];
-	doc_snailLevel4.innerHTML = a_snailLevel[4];
-	doc_snailLevel5.innerHTML = a_snailLevel[5];
-	doc_snailLevel6.innerHTML = a_snailLevel[6];
-	doc_snailLevel7.innerHTML = a_snailLevel[7];
+		doc_gameRound.innerHTML = a_gameRound;
+		doc_gameActive.innerHTML = "is active!";
+		doc_gameText.innerHTML = "Grab Snails and Snag Eggs to Win the Prize!";
 		
-	doc_snailEgg0.innerHTML = a_snailEgg[0];
-	doc_snailEgg1.innerHTML = a_snailEgg[1];
-	doc_snailEgg2.innerHTML = a_snailEgg[2];
-	doc_snailEgg3.innerHTML = a_snailEgg[3];
-	doc_snailEgg4.innerHTML = a_snailEgg[4];
-	doc_snailEgg5.innerHTML = a_snailEgg[5];
-	doc_snailEgg6.innerHTML = a_snailEgg[6];
-	doc_snailEgg7.innerHTML = a_snailEgg[7];
-	
-	doc_snailCost0.innerHTML = a_snailCost[0];
-	doc_snailCost1.innerHTML = a_snailCost[1];
-	doc_snailCost2.innerHTML = a_snailCost[2];
-	doc_snailCost3.innerHTML = a_snailCost[3];
-	doc_snailCost4.innerHTML = a_snailCost[4];
-	doc_snailCost5.innerHTML = a_snailCost[5];
-	doc_snailCost6.innerHTML = a_snailCost[6];
-	doc_snailCost7.innerHTML = a_snailCost[7];
+		doc_snailLevel0.innerHTML = a_snailLevel[0];
+		doc_snailLevel1.innerHTML = a_snailLevel[1];
+		doc_snailLevel2.innerHTML = a_snailLevel[2];
+		doc_snailLevel3.innerHTML = a_snailLevel[3];
+		doc_snailLevel4.innerHTML = a_snailLevel[4];
+		doc_snailLevel5.innerHTML = a_snailLevel[5];
+		doc_snailLevel6.innerHTML = a_snailLevel[6];
+		doc_snailLevel7.innerHTML = a_snailLevel[7];
+			
+		doc_snailEgg0.innerHTML = a_snailEgg[0];
+		doc_snailEgg1.innerHTML = a_snailEgg[1];
+		doc_snailEgg2.innerHTML = a_snailEgg[2];
+		doc_snailEgg3.innerHTML = a_snailEgg[3];
+		doc_snailEgg4.innerHTML = a_snailEgg[4];
+		doc_snailEgg5.innerHTML = a_snailEgg[5];
+		doc_snailEgg6.innerHTML = a_snailEgg[6];
+		doc_snailEgg7.innerHTML = a_snailEgg[7];
+		
+		doc_snailCost0.innerHTML = a_snailCost[0];
+		doc_snailCost1.innerHTML = a_snailCost[1];
+		doc_snailCost2.innerHTML = a_snailCost[2];
+		doc_snailCost3.innerHTML = a_snailCost[3];
+		doc_snailCost4.innerHTML = a_snailCost[4];
+		doc_snailCost5.innerHTML = a_snailCost[5];
+		doc_snailCost6.innerHTML = a_snailCost[6];
+		doc_snailCost7.innerHTML = a_snailCost[7];
 
-	doc_snailOwner0.innerHTML = formatEthAdr(a_snailOwner[0]);
-	doc_snailOwner1.innerHTML = formatEthAdr(a_snailOwner[1]);
-	doc_snailOwner2.innerHTML = formatEthAdr(a_snailOwner[2]);
-	doc_snailOwner3.innerHTML = formatEthAdr(a_snailOwner[3]);
-	doc_snailOwner4.innerHTML = formatEthAdr(a_snailOwner[4]);
-	doc_snailOwner5.innerHTML = formatEthAdr(a_snailOwner[5]);
-	doc_snailOwner6.innerHTML = formatEthAdr(a_snailOwner[6]);
-	doc_snailOwner7.innerHTML = formatEthAdr(a_snailOwner[7]);
-	
-	doc_grabReward0.innerHTML = a_snailEgg[0] * (a_flipBonus + 100) / 100;
-	doc_grabReward1.innerHTML = a_snailEgg[1] * (a_flipBonus + 100) / 100;
-	doc_grabReward2.innerHTML = a_snailEgg[2] * (a_flipBonus + 100) / 100;
-	doc_grabReward3.innerHTML = a_snailEgg[3] * (a_flipBonus + 100) / 100;
-	doc_grabReward4.innerHTML = a_snailEgg[4] * (a_flipBonus + 100) / 100;
-	doc_grabReward5.innerHTML = a_snailEgg[5] * (a_flipBonus + 100) / 100;
-	doc_grabReward6.innerHTML = a_snailEgg[6] * (a_flipBonus + 100) / 100;
-	doc_grabReward7.innerHTML = a_snailEgg[7] * (a_flipBonus + 100) / 100;
-	
-	doc_lordCost0.innerHTML = a_lordCost[0];
-	doc_lordCost1.innerHTML = a_lordCost[1];
-	doc_lordCost2.innerHTML = a_lordCost[2];
-	doc_lordCost3.innerHTML = a_lordCost[3];
-	doc_lordCost4.innerHTML = a_lordCost[4];
-	doc_lordCost5.innerHTML = a_lordCost[5];
-	doc_lordCost6.innerHTML = a_lordCost[6];
-	doc_lordCost7.innerHTML = a_lordCost[7];
-
-	doc_lordOwner0.innerHTML = formatEthAdr(a_lordOwner[0]);
-	doc_lordOwner1.innerHTML = formatEthAdr(a_lordOwner[1]);
-	doc_lordOwner2.innerHTML = formatEthAdr(a_lordOwner[2]);
-	doc_lordOwner3.innerHTML = formatEthAdr(a_lordOwner[3]);
-	doc_lordOwner4.innerHTML = formatEthAdr(a_lordOwner[4]);
-	doc_lordOwner5.innerHTML = formatEthAdr(a_lordOwner[5]);
-	doc_lordOwner6.innerHTML = formatEthAdr(a_lordOwner[6]);
-	doc_lordOwner7.innerHTML = formatEthAdr(a_lordOwner[7]);
-}
-/*
-function updateField(){
-	f_pecan = document.getElementById('fieldPecan').value;
-	f_root = document.getElementById('fieldRoot').value;
-	doc_tradeReward.innerHTML = a_tradeReward;
-	doc_tradeReward2.innerHTML = a_tradeReward;
-}
-
-/* CALCULATIONS */
-/*
-function computeLastRootPlant(){
-	var _now = Math.round((new Date()).getTime() / 1000);
-	var _timeSinceLast = parseFloat(_now - a_lastRootPlant);
-	
-	var	_numhours = Math.floor(_timeSinceLast / 3600);
-	var _numminutes = Math.floor((_timeSinceLast % 3600) / 60);
-	var _numseconds = (_timeSinceLast % 3600) % 60;
-	var _plantString = "";			
-	if(_numhours > 0) {
-		_plantString = _numhours + " hours and " + _numminutes + " minutes ago";
-	} else if(_numminutes > 0) {
-		_plantString = _numminutes + " minutes ago";
+		doc_snailOwner0.innerHTML = formatEthAdr(a_snailOwner[0]);
+		doc_snailOwner1.innerHTML = formatEthAdr(a_snailOwner[1]);
+		doc_snailOwner2.innerHTML = formatEthAdr(a_snailOwner[2]);
+		doc_snailOwner3.innerHTML = formatEthAdr(a_snailOwner[3]);
+		doc_snailOwner4.innerHTML = formatEthAdr(a_snailOwner[4]);
+		doc_snailOwner5.innerHTML = formatEthAdr(a_snailOwner[5]);
+		doc_snailOwner6.innerHTML = formatEthAdr(a_snailOwner[6]);
+		doc_snailOwner7.innerHTML = formatEthAdr(a_snailOwner[7]);
+		
+		doc_grabReward0.innerHTML = Math.floor(a_snailEgg[0] * (a_flipBonus + 100) / 100);
+		doc_grabReward1.innerHTML = Math.floor(a_snailEgg[1] * (a_flipBonus + 100) / 100);
+		doc_grabReward2.innerHTML = Math.floor(a_snailEgg[2] * (a_flipBonus + 100) / 100);
+		doc_grabReward3.innerHTML = Math.floor(a_snailEgg[3] * (a_flipBonus + 100) / 100);
+		doc_grabReward4.innerHTML = Math.floor(a_snailEgg[4] * (a_flipBonus + 100) / 100);
+		doc_grabReward5.innerHTML = Math.floor(a_snailEgg[5] * (a_flipBonus + 100) / 100);
+		doc_grabReward6.innerHTML = Math.floor(a_snailEgg[6] * (a_flipBonus + 100) / 100);
+		doc_grabReward7.innerHTML = Math.floor(a_snailEgg[7] * (a_flipBonus + 100) / 100);
+		
 	} else {
-		_plantString = "less than a minute ago";
-	}
-	
-	return _plantString;		
-}
+		doc_gameRound.innerHTML = (a_gameRound + 1);
+		doc_gameText.innerHTML = "Become a Lord to own their Snail next round!";
+		
+		doc_lordCost0.innerHTML = a_lordCost[0];
+		doc_lordCost1.innerHTML = a_lordCost[1];
+		doc_lordCost2.innerHTML = a_lordCost[2];
+		doc_lordCost3.innerHTML = a_lordCost[3];
+		doc_lordCost4.innerHTML = a_lordCost[4];
+		doc_lordCost5.innerHTML = a_lordCost[5];
+		doc_lordCost6.innerHTML = a_lordCost[6];
+		doc_lordCost7.innerHTML = a_lordCost[7];
 
-function computeProgressBar(){
-	var _state = parseFloat(a_pecanGiven / a_pecanToWin).toFixed(2);
-	var _result = Math.floor(_state * 100) + '%';
-	doc_progressBar.style.width = _result;
-	doc_progressBar.innerHTML = _result;
-}
-
-function computePecanLeft(){
-	a_pecanLeft = parseFloat(a_pecanToWin - a_pecanGiven).toFixed(0);
-}
-
-function computeWonkWonk(){
-	ComputeWonkTrade(f_pecan, function(result) {
-		a_tradeReward = parseFloat(web3.fromWei(result, 'ether')).toFixed(8);
-	});
+		doc_lordOwner0.innerHTML = formatEthAdr(a_lordOwner[0]);
+		doc_lordOwner1.innerHTML = formatEthAdr(a_lordOwner[1]);
+		doc_lordOwner2.innerHTML = formatEthAdr(a_lordOwner[2]);
+		doc_lordOwner3.innerHTML = formatEthAdr(a_lordOwner[3]);
+		doc_lordOwner4.innerHTML = formatEthAdr(a_lordOwner[4]);
+		doc_lordOwner5.innerHTML = formatEthAdr(a_lordOwner[5]);
+		doc_lordOwner6.innerHTML = formatEthAdr(a_lordOwner[6]);
+		doc_lordOwner7.innerHTML = formatEthAdr(a_lordOwner[7]);
+	}	
 }
 
 /* FAST LOCAL UPDATES */
@@ -688,7 +666,7 @@ function updateLeaderEgg(){
 }
 		
 //Last Grab action globally
-function updateLastFlip(){
+function updateLastGrab(){
 	lastFlip(function(result) {
 		a_lastFlip = result;
 	});
@@ -1294,18 +1272,18 @@ function runLog(){
 					if(checkHash(storetxhash, result[i].transactionHash) != 0) {
 						dateLog(result[i].blockNumber);
 						if(result[i].event == "WonRound"){
-							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " WON ROUND " + result[i].args.round + "! Their reward: " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH";
+							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " WON ROUND " + result[i].args.round + "! Their reward: " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH.";
 							wipeLeaderboard();
 						} else if(result[i].event == "StartedRound"){
 							eventlogdoc.innerHTML += "<br>[~" + datetext + "] Round " + result[i].args.round + " starts!";
 						} else if(result[i].event == "GrabbedSnail"){
-							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " grabs " + idSnailToName(result[i].args.snail) + " for " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, and gets " + result[i].args.egg + " eggs";
+							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " grabs " + idSnailToName(result[i].args.snail) + " for " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, and gets " + result[i].args.egg + " eggs.";
 							computeLeaderboard();
 						} else if(result[i].event == "Snagged"){
-							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " snags " + result[i].args.egg + " from his snail " + idSnailToName(result[i].args.snail);
+							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " snags " + result[i].args.egg + " from his snail " + idSnailToName(result[i].args.snail) + ".";
 							computeLeaderboard();
 						} else if(result[i].event == "BecameLord"){
-							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " becomes the lord " + idLordToName(result[i].args.lord) + "! For their " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, they get " + result[i].args.egg + " eggs";
+							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " becomes the lord " + idLordToName(result[i].args.lord) + "! For their " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, they get " + result[i].args.egg + " eggs.";
 							computeLeaderboard();
 						} else if(result[i].event == "WithdrewBalance"){
 							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " withdrew " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH to their wallet.";
@@ -1345,7 +1323,7 @@ grabbedsnailEvent.watch(function(error, result){
 		//console.log(result);
 		if(checkHash(storetxhash, result.transactionHash) != 0) {
 			date24();
-			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " grabs " + idSnailToName(result[i].args.snail) + " for " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, and gets " + result[i].args.egg + " eggs";
+			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " grabs " + idSnailToName(result[i].args.snail) + " for " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, and gets " + result[i].args.egg + " eggs.";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
 			computeLeaderboard();
 		}
@@ -1359,7 +1337,7 @@ snaggedEvent.watch(function(error, result){
 		//console.log(result);
 		if(checkHash(storetxhash, result.transactionHash) != 0) {
 			date24();
-			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " snags " + result[i].args.egg + " from his snail " + idSnailToName(result[i].args.snail);
+			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " snags " + result[i].args.egg + " from his snail " + idSnailToName(result[i].args.snail) + ".";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
 			computeLeaderboard();
 		}
@@ -1373,7 +1351,7 @@ wonroundEvent.watch(function(error, result){
 		////////////console.log(result);
 		if(checkHash(storetxhash, result.transactionHash) != 0) {
 			date24();
-			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " WON ROUND " + result[i].args.round + "! Their reward: " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH";
+			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " WON ROUND " + result[i].args.round + "! Their reward: " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH.";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
 		}
 	}
@@ -1386,7 +1364,7 @@ becamelordEvent.watch(function(error, result){
 		////////////console.log(result);
 		if(checkHash(storetxhash, result.transactionHash) != 0) {
 			date24();
-			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " becomes the lord " + idLordToName(result[i].args.lord) + "! For their " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, they get " + result[i].args.egg + " eggs";
+			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " becomes the lord " + idLordToName(result[i].args.lord) + "! For their " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, they get " + result[i].args.egg + " eggs.";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
 			computeLeaderboard();
 		}
