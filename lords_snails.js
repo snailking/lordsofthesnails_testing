@@ -386,7 +386,7 @@ function showLeaderboard() {
 	for(i = 1; i < 6; i++) {
 		for(j = 0; j < 5; j++) {
 			if(d_leaderboard[j].rank == i) {
-				doc_leaderboard[i].innerHTML += "#" + d_leaderboard[j].rank + " = " + formatEthAdr(d_leaderboard[j].address) + " | " + d_leaderboard[j].egg + " Eggs<br>";
+				doc_leaderboard.innerHTML += "#" + d_leaderboard[j].rank + " = " + formatEthAdr(d_leaderboard[j].address) + " | " + d_leaderboard[j].egg + " Eggs<br>";
 			}
 		}
 	}
