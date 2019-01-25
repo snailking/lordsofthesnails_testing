@@ -111,6 +111,7 @@ var m_account = "waiting for web3";
 var doc_contractBalance = document.getElementById('contractbalance');
 var doc_gameRound = document.getElementById('gameround');
 var doc_gameActive = document.getElementById('gameactive');
+var doc_gameText = document.getElementById('gametext');
 var doc_roundPot = document.getElementById('roundpot');
 var doc_snailPot = document.getElementById('snailpot');
 var doc_thronePot = document.getElementById('thronepot');
