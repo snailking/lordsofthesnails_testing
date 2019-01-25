@@ -380,13 +380,20 @@ function slowUpdate(){
 	setTimeout(slowUpdate, 30000);
 }
 
+var leaderboardArray = [];
+leaderboardArray[0] = 0;
+leaderboardArray[1] = document.getElementById('eggking1');
+leaderboardArray[2] = document.getElementById('eggking2');
+leaderboardArray[3] = document.getElementById('eggking3');
+leaderboardArray[4] = document.getElementById('eggking4');
+leaderboardArray[5] = document.getElementById('eggking5');
+
 //Show Leaderboard
 function showLeaderboard() {
-	doc_leaderboard.innerHTML = "";
 	for(i = 1; i < 6; i++) {
 		for(j = 0; j < 5; j++) {
 			if(d_leaderboard[j].rank == i) {
-				doc_leaderboard.innerHTML += "#" + d_leaderboard[j].rank + " = " + formatEthAdr(d_leaderboard[j].address) + " | " + d_leaderboard[j].egg + " Eggs<br>";
+				leaderboardArray[i].innerHTML = formatEthAdr(d_leaderboard[j].address) + "<br>" + d_leaderboard[j].egg) + " Eggs";
 			}
 		}
 	}

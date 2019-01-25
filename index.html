@@ -52,19 +52,35 @@
 		<br>
 		<!-- LEADERBOARD AND EVENTS -->
 		<div class="jumbotron border6">
+			<h3 align="center">EGGKINGS</h3>
+			<div class="row" align="center">
+				<div class="col-sm snail">
+					<h4><span id="eggking1">?</span></h5>
+				</div>
+				<div class="col-sm snail">
+					<h4><span id="eggking2">?</span></h4>
+				</div>
+				<div class="col-sm snail">
+					<h4><span id="eggking3">?</span></h4>
+				</div>
+				<div class="col-sm snail">
+					<h4><span id="eggking4">?</span></h4>
+				</div>
+				<div class="col-sm snail">
+					<h4><span id="eggking5">?</span></h4>
+				</div>
+			</div>
+			<br>
 			<div class="row">
-				<div class="col-sm">
-					<h3 align="center">LEADERBOARD (mockup)</h3>
-					<div class="snail">
-						<h5><span id="leaderboard">Waiting for leaders...</span></h5>
-					</div>
+				<div class="col-sm" align="left">
+					<h3>EVENTS</h3>
 				</div>
-				<div class="col-sm">
-					<h3 align="center">EVENTS (mockup)</h3>
-					<div class="snail scroll-box" id="logboxscroll">
-						<h5><span id="eventlog">Waiting for events... <button type="button" onclick="runLog()">CLICK TO LOAD PAST EVENTS</button></span></h5>
-					</div>
+				<div class="col-sm" align="right">
+					<button type="button" class="btn btn-success" onclick="runLog()">Load Event History</button>
 				</div>
+			</div>
+			<div class="snail scroll-box" id="logboxscroll">
+				<p><span id="eventlog">Waiting for events...</span></p>
 			</div>
 		</div><br>
 		<!-- SNAILS -->
