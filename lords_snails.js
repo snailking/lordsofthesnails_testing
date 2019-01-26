@@ -737,7 +737,7 @@ function checkSnailOwner(_id){
 //Change snail owner text
 function changeSnailOwnerText(_id){
 	if(a_snailOwner[_id] == m_account){
-		doc_snailOwner0.innerHTML = "YOU!";
+		doc_snailOwner[_id].innerHTML = "YOU!";
 	} else {
 		doc_snailOwner[_id] = formatEthAdr(a_snailOwner[_id]);
 	}
@@ -1325,6 +1325,8 @@ function runLog(){
 						} else if(result[i].event == "StartedRound"){
 							eventlogdoc.innerHTML += "<br>[~" + datetext + "] Round " + result[i].args.round + " starts!";
 						} else if(result[i].event == "GrabbedSnail"){
+							console.log(result[i]);
+							console.log(result[i].args.snail);
 							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " grabs " + idSnailToName(result[i].args.snail) + " for " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, and gets " + result[i].args.egg + " eggs.";
 							computeLeaderboard();
 						} else if(result[i].event == "Snagged"){
@@ -1368,7 +1370,7 @@ var grabbedsnailEvent = myContract.GrabbedSnail();
 
 grabbedsnailEvent.watch(function(error, result){
     if(!error){
-		console.log(result);
+		//console.log(result);
 		if(checkHash(storetxhash, result.transactionHash) != 0) {
 			date24();
 			eventlogdoc.innerHTML += "<br>[" + datetext + "] " + formatEthAdr(result.args.player) + " grabs " + idSnailToName(result.args.snail) + " for " + formatEthValue2(web3.fromWei(result.args.eth,'ether')) + " ETH, and gets " + result.args.egg + " eggs.";
