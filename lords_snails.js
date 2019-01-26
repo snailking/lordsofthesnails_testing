@@ -1321,14 +1321,14 @@ function runLog(){
 						dateLog(result[i].blockNumber);
 						if(result[i].event == "WonRound"){
 							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " WON ROUND " + result[i].args.round + "! Their reward: " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH.";
-							wipeLeaderboard();
+							//wipeLeaderboard();
 						} else if(result[i].event == "StartedRound"){
 							eventlogdoc.innerHTML += "<br>[~" + datetext + "] Round " + result[i].args.round + " starts!";
 						} else if(result[i].event == "GrabbedSnail"){
 							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " grabs " + idSnailToName(web3.toDecimal(result[i].args.snail)) + " for " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, and gets " + result[i].args.egg + " eggs.";
 							computeLeaderboard();
 						} else if(result[i].event == "Snagged"){
-							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " snags " + result[i].args.egg + " from his snail " + idSnailToName(web3.toDecimal(result[i].args.snail)) + ".";
+							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " snags " + result[i].args.egg + " eggs from his snail " + idSnailToName(web3.toDecimal(result[i].args.snail)) + ".";
 							computeLeaderboard();
 						} else if(result[i].event == "BecameLord"){
 							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " becomes the lord " + idLordToName(web3.toDecimal(result[i].args.snail)) + "! For their " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, they get " + result[i].args.egg + " eggs.";
@@ -1385,7 +1385,21 @@ snaggedEvent.watch(function(error, result){
 		//console.log(result);
 		if(checkHash(storetxhash, result.transactionHash) != 0) {
 			date24();
-			eventlogdoc.innerHTML += "<br>[" + datetext + "] " + formatEthAdr(result.args.player) + " snags " + result.args.egg + " from his snail " + idSnailToName(web3.toDecimal(result.args.snail)) + ".";
+			eventlogdoc.innerHTML += "<br>[" + datetext + "] " + formatEthAdr(result.args.player) + " snags " + result.args.egg + " eggs from his snail " + idSnailToName(web3.toDecimal(result.args.snail)) + ".";
+			logboxscroll.scrollTop = logboxscroll.scrollHeight;
+			computeLeaderboard();
+		}
+	}
+});
+
+var becamelordEvent = myContract.BecameLord();
+
+becamelordEvent.watch(function(error, result){
+	if(!error){
+		////////////console.log(result);
+		if(checkHash(storetxhash, result.transactionHash) != 0) {
+			date24();
+			eventlogdoc.innerHTML += "<br>[" + datetext + "] " + formatEthAdr(result.args.player) + " becomes the lord " + idLordToName(web3.toDecimal(result.args.snail)) + "! For their " + formatEthValue2(web3.fromWei(result.args.eth,'ether')) + " ETH, they get " + result.args.egg + " eggs.";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
 			computeLeaderboard();
 		}
@@ -1405,19 +1419,7 @@ wonroundEvent.watch(function(error, result){
 	}
 });
 
-var becamelordEvent = myContract.BecameLord();
 
-becamelordEvent.watch(function(error, result){
-	if(!error){
-		////////////console.log(result);
-		if(checkHash(storetxhash, result.transactionHash) != 0) {
-			date24();
-			eventlogdoc.innerHTML += "<br>[" + datetext + "] " + formatEthAdr(result.args.player) + " becomes the lord " + idLordToName(web3.toDecimal(result.args.snail)) + "! For their " + formatEthValue2(web3.fromWei(result.args.eth,'ether')) + " ETH, they get " + result.args.egg + " eggs.";
-			logboxscroll.scrollTop = logboxscroll.scrollHeight;
-			computeLeaderboard();
-		}
-	}
-});
 
 var withdrewbalanceEvent = myContract.WithdrewBalance();
 
