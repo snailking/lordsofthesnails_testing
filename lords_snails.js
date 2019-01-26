@@ -1327,7 +1327,7 @@ function runLog(){
 						} else if(result[i].event == "GrabbedSnail"){
 							console.log(result[i]);
 							console.log(result[i].args.snail);
-							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " grabs " + idSnailToName(result[i].args.snail) + " for " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, and gets " + result[i].args.egg + " eggs.";
+							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " grabs " + idSnailToName(web3.toDecimal(result[i].args.snail)) + " for " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, and gets " + result[i].args.egg + " eggs.";
 							computeLeaderboard();
 						} else if(result[i].event == "Snagged"){
 							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " snags " + result[i].args.egg + " from his snail " + idSnailToName(result[i].args.snail) + ".";
