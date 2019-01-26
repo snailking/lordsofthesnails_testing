@@ -156,15 +156,16 @@ var doc_snailCost5 = document.getElementById('snailcost5');
 var doc_snailCost6 = document.getElementById('snailcost6');
 var doc_snailCost7 = document.getElementById('snailcost7');
 
-var doc_snailOwner = [];
-var doc_snailOwner[0] = document.getElementById('snailowner0');
-var doc_snailOwner[1] = document.getElementById('snailowner1');
-var doc_snailOwner[2] = document.getElementById('snailowner2');
-var doc_snailOwner[3] = document.getElementById('snailowner3');
-var doc_snailOwner[4] = document.getElementById('snailowner4');
-var doc_snailOwner[5] = document.getElementById('snailowner5');
-var doc_snailOwner[6] = document.getElementById('snailowner6');
-var doc_snailOwner[7] = document.getElementById('snailowner7');
+var doc_snailOwner = [
+document.getElementById('snailowner0'),
+document.getElementById('snailowner1'),
+document.getElementById('snailowner2'),
+document.getElementById('snailowner3'),
+document.getElementById('snailowner4'),
+document.getElementById('snailowner5'),
+document.getElementById('snailowner6'),
+document.getElementById('snailowner7')
+];
 
 var doc_grabReward0 = document.getElementById('grabreward0');
 var doc_grabReward1 = document.getElementById('grabreward1');
