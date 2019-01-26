@@ -520,7 +520,7 @@ function updateText(){
 		doc_snailCost5.innerHTML = a_snailCost[5];
 		doc_snailCost6.innerHTML = a_snailCost[6];
 		doc_snailCost7.innerHTML = a_snailCost[7];
-
+		
 		doc_snailOwner0.innerHTML = formatEthAdr(a_snailOwner[0]);
 		doc_snailOwner1.innerHTML = formatEthAdr(a_snailOwner[1]);
 		doc_snailOwner2.innerHTML = formatEthAdr(a_snailOwner[2]);
@@ -745,6 +745,34 @@ function checkLordOwner(_id){
 	GetLordOwner(_id, function(result) {
 		a_lordOwner[_id] = "0x" + result.substring(26, 66);
 	});
+}
+
+//Convert ID to Snail name
+function idSnailToName(_id){
+	switch(_id){
+		case 0: return "Achilles";
+		case 1: return "Daedalus";
+		case 2: return "Heracles";
+		case 3: return "Icarus";
+		case 4: return "Jason";
+		case 5: return "Odysseus";
+		case 6: return "Perseus";
+		case 7: return "Theseus";
+	}
+}
+
+//Convert ID to Lord name
+function idLordToName(_id){
+	switch(_id){
+		case 0: return "Aristotle";
+		case 1: return "Diogenes";
+		case 2: return "Heraclitus";
+		case 3: return "Chrysippus";
+		case 4: return "Socrates";
+		case 5: return "Zeno";
+		case 6: return "Plato";
+		case 7: return "Thales";
+	}
 }
 
 /* WEB3 TRANSACTIONS */
@@ -1315,7 +1343,7 @@ startedroundEvent.watch(function(error, result){
 		//console.log(result);
 		if(checkHash(storetxhash, result.transactionHash) != 0) {
 			date24();
-			eventlogdoc.innerHTML += "<br>[~" + datetext + "] Round " + result[i].args.round + " starts!";
+			eventlogdoc.innerHTML += "<br>[~" + datetext + "] Round " + result.args.round + " starts!";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
 		}
 	}
@@ -1328,7 +1356,7 @@ grabbedsnailEvent.watch(function(error, result){
 		//console.log(result);
 		if(checkHash(storetxhash, result.transactionHash) != 0) {
 			date24();
-			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " grabs " + idSnailToName(result[i].args.snail) + " for " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, and gets " + result[i].args.egg + " eggs.";
+			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result.args.player) + " grabs " + idSnailToName(result.args.snail) + " for " + formatEthValue2(web3.fromWei(result.args.eth,'ether')) + " ETH, and gets " + result.args.egg + " eggs.";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
 			computeLeaderboard();
 		}
@@ -1342,7 +1370,7 @@ snaggedEvent.watch(function(error, result){
 		//console.log(result);
 		if(checkHash(storetxhash, result.transactionHash) != 0) {
 			date24();
-			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " snags " + result[i].args.egg + " from his snail " + idSnailToName(result[i].args.snail) + ".";
+			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result.args.player) + " snags " + result.args.egg + " from his snail " + idSnailToName(result.args.snail) + ".";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
 			computeLeaderboard();
 		}
@@ -1356,7 +1384,7 @@ wonroundEvent.watch(function(error, result){
 		////////////console.log(result);
 		if(checkHash(storetxhash, result.transactionHash) != 0) {
 			date24();
-			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " WON ROUND " + result[i].args.round + "! Their reward: " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH.";
+			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result.args.player) + " WON ROUND " + result.args.round + "! Their reward: " + formatEthValue2(web3.fromWei(result.args.eth,'ether')) + " ETH.";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
 		}
 	}
@@ -1369,7 +1397,7 @@ becamelordEvent.watch(function(error, result){
 		////////////console.log(result);
 		if(checkHash(storetxhash, result.transactionHash) != 0) {
 			date24();
-			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " becomes the lord " + idLordToName(result[i].args.lord) + "! For their " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, they get " + result[i].args.egg + " eggs.";
+			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result.args.player) + " becomes the lord " + idLordToName(result.args.lord) + "! For their " + formatEthValue2(web3.fromWei(result.args.eth,'ether')) + " ETH, they get " + result.args.egg + " eggs.";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
 			computeLeaderboard();
 		}
@@ -1383,7 +1411,7 @@ withdrewbalanceEvent.watch(function(error, result){
 		////////////console.log(result);
 		if(checkHash(storetxhash, result.transactionHash) != 0) {
 			date24();
-			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " withdrew " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH to their wallet.";
+			eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result.args.player) + " withdrew " + formatEthValue2(web3.fromWei(result.args.eth,'ether')) + " ETH to their wallet.";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
 		}
 	}
