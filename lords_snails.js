@@ -739,7 +739,7 @@ function changeSnailOwnerText(_id){
 	if(a_snailOwner[_id] == m_account){
 		doc_snailOwner[_id].innerHTML = "YOU!";
 	} else {
-		doc_snailOwner[_id] = formatEthAdr(a_snailOwner[_id]);
+		doc_snailOwner[_id].innerHTML = formatEthAdr(a_snailOwner[_id]);
 	}
 }
 
