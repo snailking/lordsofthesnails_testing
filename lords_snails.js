@@ -1279,8 +1279,8 @@ function computeLeaderboard() {
 	var notLeader = true;
 	for(k = 0; k < 5; k++) {
 		if(e_challenger.address == d_leaderboard[k].address) {
-			d_leaderboard[k].address = e_size.address;
-			d_leaderboard[k].egg = e_size.egg;
+			d_leaderboard[k].address = e_challenger.address;
+			d_leaderboard[k].egg = e_challenger.egg;
 			notLeader = false;
 		}
 	}
@@ -1335,7 +1335,7 @@ function runLog(){
 							e_challenger.egg =  parseInt(result[i].args.egg);
 							computeLeaderboard();
 						} else if(result[i].event == "BecameLord"){
-							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " becomes the lord " + idLordToName(web3.toDecimal(result[i].args.snail)) + "! For their " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, they get " + result[i].args.egg + " eggs.";
+							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " becomes the lord " + idLordToName(web3.toDecimal(result[i].args.lord)) + "! For their " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, they get " + result[i].args.egg + " eggs.";
 							e_challenger.address = result[i].args.player;
 							e_challenger.egg =  parseInt(result[i].args.egg);
 							computeLeaderboard();
@@ -1409,7 +1409,7 @@ becamelordEvent.watch(function(error, result){
 		////////////console.log(result);
 		if(checkHash(storetxhash, result.transactionHash) != 0) {
 			date24();
-			eventlogdoc.innerHTML += "<br>[" + datetext + "] " + formatEthAdr(result.args.player) + " becomes the lord " + idLordToName(web3.toDecimal(result.args.snail)) + "! For their " + formatEthValue2(web3.fromWei(result.args.eth,'ether')) + " ETH, they get " + result.args.egg + " eggs.";
+			eventlogdoc.innerHTML += "<br>[" + datetext + "] " + formatEthAdr(result.args.player) + " becomes the lord " + idLordToName(web3.toDecimal(result.args.lord)) + "! For their " + formatEthValue2(web3.fromWei(result.args.eth,'ether')) + " ETH, they get " + result.args.egg + " eggs.";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
 			e_challenger.address = result[i].args.player;
 			e_challenger.egg =  parseInt(result[i].args.egg);
