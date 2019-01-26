@@ -1278,7 +1278,7 @@ function computeLeaderboard() {
 	//Check if new player is already on leaderboard, then check if new player can replace lowest
 	var notLeader = true;
 	for(k = 0; k < 5; k++) {
-		if(e_size.address == d_leaderboard[k].address) {
+		if(e_challenger.address == d_leaderboard[k].address) {
 			d_leaderboard[k].address = e_size.address;
 			d_leaderboard[k].egg = e_size.egg;
 			notLeader = false;
@@ -1286,9 +1286,9 @@ function computeLeaderboard() {
 	}
 
 	var newEntry = false;
-	if(notLeader == true && e_size.egg > lowest) {
-		d_leaderboard[position].address = e_size.address;
-		d_leaderboard[position].egg = e_size.egg;
+	if(notLeader == true && e_challenger.egg > lowest) {
+		d_leaderboard[position].address = e_challenger.address;
+		d_leaderboard[position].egg = e_challenger.egg;
 		newEntry = true;
 	}
 }
@@ -1307,7 +1307,7 @@ function wipeLeaderboard(){
 var logboxscroll = document.getElementById('logboxscroll');
 var eventlogdoc = document.getElementById("eventlog");
 
-var e_size = { address: "", egg: 0 };
+var e_challenger = { address: "", egg: 0 };
 
 function runLog(){
 	if(ranLog == false && twoDaysBlock > 0){
@@ -1326,12 +1326,18 @@ function runLog(){
 							eventlogdoc.innerHTML += "<br>[~" + datetext + "] Round " + result[i].args.round + " starts!";
 						} else if(result[i].event == "GrabbedSnail"){
 							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " grabs " + idSnailToName(web3.toDecimal(result[i].args.snail)) + " for " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, and gets " + result[i].args.egg + " eggs.";
+							e_challenger.address = result[i].args.player;
+							e_challenger.egg =  parseInt(result[i].args.egg);
 							computeLeaderboard();
 						} else if(result[i].event == "Snagged"){
 							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " snags " + result[i].args.egg + " eggs from his snail " + idSnailToName(web3.toDecimal(result[i].args.snail)) + ".";
+							e_challenger.address = result[i].args.player;
+							e_challenger.egg =  parseInt(result[i].args.egg);
 							computeLeaderboard();
 						} else if(result[i].event == "BecameLord"){
 							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " becomes the lord " + idLordToName(web3.toDecimal(result[i].args.snail)) + "! For their " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH, they get " + result[i].args.egg + " eggs.";
+							e_challenger.address = result[i].args.player;
+							e_challenger.egg =  parseInt(result[i].args.egg);
 							computeLeaderboard();
 						} else if(result[i].event == "WithdrewBalance"){
 							eventlogdoc.innerHTML += "<br>[~" + datetext + "] " + formatEthAdr(result[i].args.player) + " withdrew " + formatEthValue2(web3.fromWei(result[i].args.eth,'ether')) + " ETH to their wallet.";
@@ -1373,6 +1379,8 @@ grabbedsnailEvent.watch(function(error, result){
 			date24();
 			eventlogdoc.innerHTML += "<br>[" + datetext + "] " + formatEthAdr(result.args.player) + " grabs " + idSnailToName(web3.toDecimal(result.args.snail)) + " for " + formatEthValue2(web3.fromWei(result.args.eth,'ether')) + " ETH, and gets " + result.args.egg + " eggs.";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
+			e_challenger.address = result[i].args.player;
+			e_challenger.egg =  parseInt(result[i].args.egg);
 			computeLeaderboard();
 		}
 	}
@@ -1387,6 +1395,8 @@ snaggedEvent.watch(function(error, result){
 			date24();
 			eventlogdoc.innerHTML += "<br>[" + datetext + "] " + formatEthAdr(result.args.player) + " snags " + result.args.egg + " eggs from his snail " + idSnailToName(web3.toDecimal(result.args.snail)) + ".";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
+			e_challenger.address = result[i].args.player;
+			e_challenger.egg =  parseInt(result[i].args.egg);
 			computeLeaderboard();
 		}
 	}
@@ -1401,6 +1411,8 @@ becamelordEvent.watch(function(error, result){
 			date24();
 			eventlogdoc.innerHTML += "<br>[" + datetext + "] " + formatEthAdr(result.args.player) + " becomes the lord " + idLordToName(web3.toDecimal(result.args.snail)) + "! For their " + formatEthValue2(web3.fromWei(result.args.eth,'ether')) + " ETH, they get " + result.args.egg + " eggs.";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
+			e_challenger.address = result[i].args.player;
+			e_challenger.egg =  parseInt(result[i].args.egg);
 			computeLeaderboard();
 		}
 	}
