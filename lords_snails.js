@@ -130,32 +130,38 @@ var doc_leaderboard = document.getElementById('leaderboard');
 var interface_snail = document.getElementById("interfacesnail");
 var interface_lord = document.getElementById("interfacelord");
 
-var doc_snailLevel0 = document.getElementById('snaillevel0');
-var doc_snailLevel1 = document.getElementById('snaillevel1');
-var doc_snailLevel2 = document.getElementById('snaillevel2');
-var doc_snailLevel3 = document.getElementById('snaillevel3');
-var doc_snailLevel4 = document.getElementById('snaillevel4');
-var doc_snailLevel5 = document.getElementById('snaillevel5');
-var doc_snailLevel6 = document.getElementById('snaillevel6');
-var doc_snailLevel7 = document.getElementById('snaillevel7');
+var doc_snailLevel = [
+document.getElementById('snaillevel0');
+document.getElementById('snaillevel1');
+document.getElementById('snaillevel2');
+document.getElementById('snaillevel3');
+document.getElementById('snaillevel4');
+document.getElementById('snaillevel5');
+document.getElementById('snaillevel6');
+document.getElementById('snaillevel7');
+];
 
-var doc_snailEgg0 = document.getElementById('snailegg0');
-var doc_snailEgg1 = document.getElementById('snailegg1');
-var doc_snailEgg2 = document.getElementById('snailegg2');
-var doc_snailEgg3 = document.getElementById('snailegg3');
-var doc_snailEgg4 = document.getElementById('snailegg4');
-var doc_snailEgg5 = document.getElementById('snailegg5');
-var doc_snailEgg6 = document.getElementById('snailegg6');
-var doc_snailEgg7 = document.getElementById('snailegg7');
+var doc_snailEgg = [
+document.getElementById('snailegg0');
+document.getElementById('snailegg1');
+document.getElementById('snailegg2');
+document.getElementById('snailegg3');
+document.getElementById('snailegg4');
+document.getElementById('snailegg5');
+document.getElementById('snailegg6');
+document.getElementById('snailegg7');
+];
 
-var doc_snailCost0 = document.getElementById('snailcost0');
-var doc_snailCost1 = document.getElementById('snailcost1');
-var doc_snailCost2 = document.getElementById('snailcost2');
-var doc_snailCost3 = document.getElementById('snailcost3');
-var doc_snailCost4 = document.getElementById('snailcost4');
-var doc_snailCost5 = document.getElementById('snailcost5');
-var doc_snailCost6 = document.getElementById('snailcost6');
-var doc_snailCost7 = document.getElementById('snailcost7');
+var doc_snailCost = [
+document.getElementById('snailcost0'),
+document.getElementById('snailcost1'),
+document.getElementById('snailcost2'),
+document.getElementById('snailcost3'),
+document.getElementById('snailcost4'),
+document.getElementById('snailcost5'),
+document.getElementById('snailcost6'),
+document.getElementById('snailcost7')
+];
 
 var doc_snailOwner = [
 document.getElementById('snailowner0'),
@@ -177,23 +183,27 @@ var doc_grabReward5 = document.getElementById('grabreward5');
 var doc_grabReward6 = document.getElementById('grabreward6');
 var doc_grabReward7 = document.getElementById('grabreward7');
 
-var doc_lordCost0 = document.getElementById('lordcost0');
-var doc_lordCost1 = document.getElementById('lordcost1');
-var doc_lordCost2 = document.getElementById('lordcost2');
-var doc_lordCost3 = document.getElementById('lordcost3');
-var doc_lordCost4 = document.getElementById('lordcost4');
-var doc_lordCost5 = document.getElementById('lordcost5');
-var doc_lordCost6 = document.getElementById('lordcost6');
-var doc_lordCost7 = document.getElementById('lordcost7');
+var doc_lordCost = [
+document.getElementById('lordcost0');
+document.getElementById('lordcost1');
+document.getElementById('lordcost2');
+document.getElementById('lordcost3');
+document.getElementById('lordcost4');
+document.getElementById('lordcost5');
+document.getElementById('lordcost6');
+document.getElementById('lordcost7');
+];
 
-var doc_lordOwner0 = document.getElementById('lordowner0');
-var doc_lordOwner1 = document.getElementById('lordowner1');
-var doc_lordOwner2 = document.getElementById('lordowner2');
-var doc_lordOwner3 = document.getElementById('lordowner3');
-var doc_lordOwner4 = document.getElementById('lordowner4');
-var doc_lordOwner5 = document.getElementById('lordowner5');
-var doc_lordOwner6 = document.getElementById('lordowner6');
-var doc_lordOwner7 = document.getElementById('lordowner7');
+var doc_lordOwner = [
+document.getElementById('lordowner0');
+document.getElementById('lordowner1');
+document.getElementById('lordowner2');
+document.getElementById('lordowner3');
+document.getElementById('lordowner4');
+document.getElementById('lordowner5');
+document.getElementById('lordowner6');
+document.getElementById('lordowner7');
+];
 
 //Leaderboard Array
 
@@ -497,6 +507,13 @@ function updateText(){
 		doc_roundPot.innerHTML = a_roundPot;
 		doc_winReq.innerHTML = a_gameRound * 1000000;
 		
+		for(i = 0; i < 8; i++){
+			changeText(i, doc_snailLevel, a_snailLevel);
+			changeText(i, doc_snailEgg, a_snailEgg);
+			changeText(i, doc_snailCost, a_snailCost);
+		}
+		
+		/*
 		doc_snailLevel0.innerHTML = a_snailLevel[0];
 		doc_snailLevel1.innerHTML = a_snailLevel[1];
 		doc_snailLevel2.innerHTML = a_snailLevel[2];
@@ -523,7 +540,7 @@ function updateText(){
 		doc_snailCost5.innerHTML = a_snailCost[5];
 		doc_snailCost6.innerHTML = a_snailCost[6];
 		doc_snailCost7.innerHTML = a_snailCost[7];
-		
+		*/
 		runLoop(changeSnailOwnerText);
 		/*
 		doc_snailOwner0.innerHTML = formatEthAdr(a_snailOwner[0]);
@@ -550,6 +567,13 @@ function updateText(){
 		doc_roundPot.innerHTML = formatEthValue(a_snailPot / 10);
 		doc_winReq.innerHTML = (a_gameRound + 1) * 1000000;
 		
+				
+		for(i = 0; i < 8; i++){
+			changeText(i, doc_lordCost, a_lordCost);
+		}
+		
+		runLoop(changeLordOwnerText);
+		/*
 		doc_lordCost0.innerHTML = a_lordCost[0];
 		doc_lordCost1.innerHTML = a_lordCost[1];
 		doc_lordCost2.innerHTML = a_lordCost[2];
@@ -567,6 +591,7 @@ function updateText(){
 		doc_lordOwner5.innerHTML = formatEthAdr(a_lordOwner[5]);
 		doc_lordOwner6.innerHTML = formatEthAdr(a_lordOwner[6]);
 		doc_lordOwner7.innerHTML = formatEthAdr(a_lordOwner[7]);
+		*/
 	}	
 }
 
@@ -749,6 +774,11 @@ function updateSnailCost(_id){
 	a_snailCost[_id] = (a_snailLevel[_id] + 1) * 0.01;
 }
 
+//Change text
+function changeText(_id, _doc, _a){
+	_doc[_id].innerHTML = _a[_id];
+}
+
 //Check lord cost
 function checkLordCost(_id){
 	ComputeLordCost(_id, function(result) {
@@ -761,6 +791,15 @@ function checkLordOwner(_id){
 	GetLordOwner(_id, function(result) {
 		a_lordOwner[_id] = "0x" + result.substring(26, 66);
 	});
+}
+
+//Change lord owner text
+function changeLordOwnerText(_id){
+	if(a_lordOwner[_id] == m_account){
+		doc_lordOwner[_id].innerHTML = "YOU!";
+	} else {
+		doc_lordOwner[_id].innerHTML = formatEthAdr(a_lordOwner[_id]);
+	}
 }
 
 //Convert ID to Snail name
