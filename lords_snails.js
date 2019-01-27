@@ -131,25 +131,25 @@ var interface_snail = document.getElementById("interfacesnail");
 var interface_lord = document.getElementById("interfacelord");
 
 var doc_snailLevel = [
-document.getElementById('snaillevel0');
-document.getElementById('snaillevel1');
-document.getElementById('snaillevel2');
-document.getElementById('snaillevel3');
-document.getElementById('snaillevel4');
-document.getElementById('snaillevel5');
-document.getElementById('snaillevel6');
-document.getElementById('snaillevel7');
+document.getElementById('snaillevel0'),
+document.getElementById('snaillevel1'),
+document.getElementById('snaillevel2'),
+document.getElementById('snaillevel3'),
+document.getElementById('snaillevel4'),
+document.getElementById('snaillevel5'),
+document.getElementById('snaillevel6'),
+document.getElementById('snaillevel7')
 ];
 
 var doc_snailEgg = [
-document.getElementById('snailegg0');
-document.getElementById('snailegg1');
-document.getElementById('snailegg2');
-document.getElementById('snailegg3');
-document.getElementById('snailegg4');
-document.getElementById('snailegg5');
-document.getElementById('snailegg6');
-document.getElementById('snailegg7');
+document.getElementById('snailegg0'),
+document.getElementById('snailegg1'),
+document.getElementById('snailegg2'),
+document.getElementById('snailegg3'),
+document.getElementById('snailegg4'),
+document.getElementById('snailegg5'),
+document.getElementById('snailegg6'),
+document.getElementById('snailegg7')
 ];
 
 var doc_snailCost = [
@@ -184,25 +184,25 @@ var doc_grabReward6 = document.getElementById('grabreward6');
 var doc_grabReward7 = document.getElementById('grabreward7');
 
 var doc_lordCost = [
-document.getElementById('lordcost0');
-document.getElementById('lordcost1');
-document.getElementById('lordcost2');
-document.getElementById('lordcost3');
-document.getElementById('lordcost4');
-document.getElementById('lordcost5');
-document.getElementById('lordcost6');
-document.getElementById('lordcost7');
+document.getElementById('lordcost0'),
+document.getElementById('lordcost1'),
+document.getElementById('lordcost2'),
+document.getElementById('lordcost3'),
+document.getElementById('lordcost4'),
+document.getElementById('lordcost5'),
+document.getElementById('lordcost6'),
+document.getElementById('lordcost7')
 ];
 
 var doc_lordOwner = [
-document.getElementById('lordowner0');
-document.getElementById('lordowner1');
-document.getElementById('lordowner2');
-document.getElementById('lordowner3');
-document.getElementById('lordowner4');
-document.getElementById('lordowner5');
-document.getElementById('lordowner6');
-document.getElementById('lordowner7');
+document.getElementById('lordowner0'),
+document.getElementById('lordowner1'),
+document.getElementById('lordowner2'),
+document.getElementById('lordowner3'),
+document.getElementById('lordowner4'),
+document.getElementById('lordowner5'),
+document.getElementById('lordowner6'),
+document.getElementById('lordowner7')
 ];
 
 //Leaderboard Array
