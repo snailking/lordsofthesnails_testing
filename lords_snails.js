@@ -606,7 +606,7 @@ function updateStartButton(){
 	if(a_gameActive == false && a_downtime <= 0){
 		doc_startButton.innerHTML = '<button class="btn btn-lg btn-success" onclick="webBeginRound()">BEGIN ROUND</button>';
 	} else {
-		doc_startButton.innerHTML = '<button class="btn btn-lg btn-drk" onclick="modalCantStart()">BEGIN ROUND</button>';
+		doc_startButton.innerHTML = '<button class="btn btn-lg btn-dark" onclick="modalCantStart()">BEGIN ROUND</button>';
 	}
 }
 
@@ -643,7 +643,7 @@ function updateSnagButton(_id){
 	if(a_snailOwner[_id] == m_account){
 		doc_snagButton[_id].innerHTML = '<button class="btn btn-lg btn-success" onclick="webSnagEgg(' + _id + ')">SNAG</button>';
 	} else {
-		doc_snagButton[_id].innerHTML = '<button class="btn btn-lg btn-drk" onclick="modalCantSnag()">SNAG</button>';
+		doc_snagButton[_id].innerHTML = '<button class="btn btn-lg btn-dark" onclick="modalCantSnag()">SNAG</button>';
 	}
 }
 
