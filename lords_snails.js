@@ -27,36 +27,24 @@ window.addEventListener("load", function() {
         web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/f423492af8504d94979d522c3fbf3794"));
     }
 });
-/*
+
 /* MODAL */
-/*
+
 // Get the modals
-var claim_modal = document.getElementById("claimmodal");
-var grow_modal = document.getElementById("growmodal");
-var root_modal = document.getElementById("rootmodal");
-var toolow_modal = document.getElementById("toolowmodal");
-var pecan_modal = document.getElementById("pecanmodal");
-var prelaunch_modal = document.getElementById("prelaunchmodal");
+var snag_modal = document.getElementById("snagmodal");
+var start_modal = document.getElementById("startmodal");
 
 // Close modal on game info
 function CloseModal() {
-	claim_modal.style.display = "none";
-	grow_modal.style.display = "none";
-	root_modal.style.display = "none";
-	toolow_modal.style.display = "none";
-	pecan_modal.style.display = "none";
-	prelaunch_modal.style.display = "none";
+	snag_modal.style.display = "none";
+	start_modal.style.display = "none";
 }
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-    if (event.target == claim_modal || event.target == grow_modal || event.target == root_modal || event.target == toolow_modal || event.target == pecan_modal || event.target == prelaunch_modal) {
-        claim_modal.style.display = "none";
-		grow_modal.style.display = "none";
-		root_modal.style.display = "none";
-		toolow_modal.style.display = "none";
-		pecan_modal.style.display = "none";
-		prelaunch_modal.style.display = "none;"
+    if (event.target == snag_modal || event.target == start_modal) {
+        snag_modal.style.display = "none";
+		start_modal.style.display = "none";
     }
 }
 
@@ -126,7 +114,7 @@ var doc_claimBonus = document.getElementById('claimbonus');
 var doc_playerBalance = document.getElementById('playerbalance');
 var doc_playerEgg = document.getElementById('playeregg');
 var doc_leaderboard = document.getElementById('leaderboard');
-
+var doc_startButton = document.getElementById('startbutton');
 var interface_snail = document.getElementById("interfacesnail");
 var interface_lord = document.getElementById("interfacelord");
 
@@ -174,14 +162,16 @@ document.getElementById('snailowner6'),
 document.getElementById('snailowner7')
 ];
 
-var doc_grabReward0 = document.getElementById('grabreward0');
-var doc_grabReward1 = document.getElementById('grabreward1');
-var doc_grabReward2 = document.getElementById('grabreward2');
-var doc_grabReward3 = document.getElementById('grabreward3');
-var doc_grabReward4 = document.getElementById('grabreward4');
-var doc_grabReward5 = document.getElementById('grabreward5');
-var doc_grabReward6 = document.getElementById('grabreward6');
-var doc_grabReward7 = document.getElementById('grabreward7');
+var doc_grabReward = [
+document.getElementById('grabreward0'),
+document.getElementById('grabreward1'),
+document.getElementById('grabreward2'),
+document.getElementById('grabreward3'),
+document.getElementById('grabreward4'),
+document.getElementById('grabreward5'),
+document.getElementById('grabreward6'),
+document.getElementById('grabreward7')
+];
 
 var doc_lordCost = [
 document.getElementById('lordcost0'),
@@ -203,6 +193,17 @@ document.getElementById('lordowner4'),
 document.getElementById('lordowner5'),
 document.getElementById('lordowner6'),
 document.getElementById('lordowner7')
+];
+
+var doc_snagButton = [
+document.getElementById('snagbutton0'),
+document.getElementById('snagbutton1'),
+document.getElementById('snagbutton2'),
+document.getElementById('snagbutton3'),
+document.getElementById('snagbutton4'),
+document.getElementById('snagbutton5'),
+document.getElementById('snagbutton6'),
+document.getElementById('snagbutton7')
 ];
 
 //Leaderboard Array
@@ -359,6 +360,7 @@ function mainUpdate(){
 	updatePlayerBalance();
 	updatePlayerEgg();
 	updateActiveInterface();
+	updateStartButton();
 	if(a_gameActive == true){
 		updateLastGrab();
 		timeSinceGrab();
@@ -366,6 +368,7 @@ function mainUpdate(){
 		runLoop(checkSnailEgg);
 		runLoop(checkSnailOwner);
 		runLoop(updateSnailCost);
+		runLoop(updateSnagButton);
 	} else {
 		updateNextRoundStart();
 		updateLastClaim();
@@ -498,7 +501,6 @@ function updateText(){
 	doc_claimBonus.innerHTML = a_claimBonus;
 	doc_playerBalance.innerHTML = a_playerBalance;
 	doc_playerEgg.innerHTML = a_playerEgg;
-
 	
 	if(a_gameActive == true){
 		doc_gameRound.innerHTML = a_gameRound;
@@ -511,87 +513,19 @@ function updateText(){
 			changeText(i, doc_snailLevel, a_snailLevel);
 			changeText(i, doc_snailEgg, a_snailEgg);
 			changeText(i, doc_snailCost, a_snailCost);
-		}
-		
-		/*
-		doc_snailLevel0.innerHTML = a_snailLevel[0];
-		doc_snailLevel1.innerHTML = a_snailLevel[1];
-		doc_snailLevel2.innerHTML = a_snailLevel[2];
-		doc_snailLevel3.innerHTML = a_snailLevel[3];
-		doc_snailLevel4.innerHTML = a_snailLevel[4];
-		doc_snailLevel5.innerHTML = a_snailLevel[5];
-		doc_snailLevel6.innerHTML = a_snailLevel[6];
-		doc_snailLevel7.innerHTML = a_snailLevel[7];
-			
-		doc_snailEgg0.innerHTML = a_snailEgg[0];
-		doc_snailEgg1.innerHTML = a_snailEgg[1];
-		doc_snailEgg2.innerHTML = a_snailEgg[2];
-		doc_snailEgg3.innerHTML = a_snailEgg[3];
-		doc_snailEgg4.innerHTML = a_snailEgg[4];
-		doc_snailEgg5.innerHTML = a_snailEgg[5];
-		doc_snailEgg6.innerHTML = a_snailEgg[6];
-		doc_snailEgg7.innerHTML = a_snailEgg[7];
-		
-		doc_snailCost0.innerHTML = a_snailCost[0];
-		doc_snailCost1.innerHTML = a_snailCost[1];
-		doc_snailCost2.innerHTML = a_snailCost[2];
-		doc_snailCost3.innerHTML = a_snailCost[3];
-		doc_snailCost4.innerHTML = a_snailCost[4];
-		doc_snailCost5.innerHTML = a_snailCost[5];
-		doc_snailCost6.innerHTML = a_snailCost[6];
-		doc_snailCost7.innerHTML = a_snailCost[7];
-		*/
-		runLoop(changeSnailOwnerText);
-		/*
-		doc_snailOwner0.innerHTML = formatEthAdr(a_snailOwner[0]);
-		doc_snailOwner1.innerHTML = formatEthAdr(a_snailOwner[1]);
-		doc_snailOwner2.innerHTML = formatEthAdr(a_snailOwner[2]);
-		doc_snailOwner3.innerHTML = formatEthAdr(a_snailOwner[3]);
-		doc_snailOwner4.innerHTML = formatEthAdr(a_snailOwner[4]);
-		doc_snailOwner5.innerHTML = formatEthAdr(a_snailOwner[5]);
-		doc_snailOwner6.innerHTML = formatEthAdr(a_snailOwner[6]);
-		doc_snailOwner7.innerHTML = formatEthAdr(a_snailOwner[7]);
-		*/
-		doc_grabReward0.innerHTML = Math.floor(a_snailEgg[0] * (a_flipBonus + 100) / 100);
-		doc_grabReward1.innerHTML = Math.floor(a_snailEgg[1] * (a_flipBonus + 100) / 100);
-		doc_grabReward2.innerHTML = Math.floor(a_snailEgg[2] * (a_flipBonus + 100) / 100);
-		doc_grabReward3.innerHTML = Math.floor(a_snailEgg[3] * (a_flipBonus + 100) / 100);
-		doc_grabReward4.innerHTML = Math.floor(a_snailEgg[4] * (a_flipBonus + 100) / 100);
-		doc_grabReward5.innerHTML = Math.floor(a_snailEgg[5] * (a_flipBonus + 100) / 100);
-		doc_grabReward6.innerHTML = Math.floor(a_snailEgg[6] * (a_flipBonus + 100) / 100);
-		doc_grabReward7.innerHTML = Math.floor(a_snailEgg[7] * (a_flipBonus + 100) / 100);
-		
+			changeSnailOwnerText(i);
+			changeGrabRewardText(i);
+		}		
 	} else {
 		doc_gameRound.innerHTML = (a_gameRound + 1);
 		doc_gameText.innerHTML = "Claim a Lord to own their Snail next round!";
 		doc_roundPot.innerHTML = formatEthValue(a_snailPot / 10);
 		doc_winReq.innerHTML = (a_gameRound + 1) * 1000000;
-		
-				
+						
 		for(i = 0; i < 8; i++){
 			changeText(i, doc_lordCost, a_lordCost);
+			changeLordOwnerText(i);
 		}
-		
-		runLoop(changeLordOwnerText);
-		/*
-		doc_lordCost0.innerHTML = a_lordCost[0];
-		doc_lordCost1.innerHTML = a_lordCost[1];
-		doc_lordCost2.innerHTML = a_lordCost[2];
-		doc_lordCost3.innerHTML = a_lordCost[3];
-		doc_lordCost4.innerHTML = a_lordCost[4];
-		doc_lordCost5.innerHTML = a_lordCost[5];
-		doc_lordCost6.innerHTML = a_lordCost[6];
-		doc_lordCost7.innerHTML = a_lordCost[7];
-
-		doc_lordOwner0.innerHTML = formatEthAdr(a_lordOwner[0]);
-		doc_lordOwner1.innerHTML = formatEthAdr(a_lordOwner[1]);
-		doc_lordOwner2.innerHTML = formatEthAdr(a_lordOwner[2]);
-		doc_lordOwner3.innerHTML = formatEthAdr(a_lordOwner[3]);
-		doc_lordOwner4.innerHTML = formatEthAdr(a_lordOwner[4]);
-		doc_lordOwner5.innerHTML = formatEthAdr(a_lordOwner[5]);
-		doc_lordOwner6.innerHTML = formatEthAdr(a_lordOwner[6]);
-		doc_lordOwner7.innerHTML = formatEthAdr(a_lordOwner[7]);
-		*/
 	}	
 }
 
@@ -667,6 +601,15 @@ function updateGameActive(){
 	});
 }
 
+//Change the BeginRound() button to appropriate state
+function updateStartButton(){
+	if(a_gameActive == false && a_downtime <= 0){
+		doc_startButton.innerHTML = '<button class="btn btn-lg btn-success" onclick="webBeginRound()">BEGIN ROUND</button>';
+	} else {
+		doc_startButton.innerHTML = '<button class="btn btn-lg btn-drk" onclick="modalCantStart()">BEGIN ROUND</button>';
+	}
+}
+
 //Next round start
 function updateNextRoundStart(){
 	nextRoundStart(function(result){
@@ -693,6 +636,25 @@ function updateThronePot(){
 	thronePot(function(result) {
 		a_thronePot = formatEthValue(web3.fromWei(result,'ether'));
 	});
+}
+
+//Check whether player can Snag or not
+function updateSnagButton(_id){
+	if(a_snailOwner[_id] == m_account){
+		doc_snagButton[_id].innerHTML = '<button class="btn btn-lg btn-success" onclick="webSnagEgg(' + _id + ')">SNAG</button>';
+	} else {
+		doc_snagButton[_id].innerHTML = '<button class="btn btn-lg btn-drk" onclick="modalCantSnag()">SNAG</button>';
+	}
+}
+
+//Cant snag modal
+function modalCantSnag(){
+	snag_modal.style.display = "block";
+}
+
+//Cant start round modal
+function modalCantStart(){
+	start_modal.style.display = "block";
 }
 
 //Current leader
@@ -750,6 +712,11 @@ function checkSnailEgg(_id){
 		a_snailEgg[_id] = web3.toDecimal(result);
 		////console.log("a_snailCost" + _id + " = " + a_snailCost[_id]);
 	});
+}
+
+//Change grab reward text
+function changeGrabRewardText(_id){
+	doc_grabReward[_id].innerHTML = Math.floor(a_snailEgg[_id] * (a_flipBonus + 100) / 100);
 }
 
 //Check snail owner

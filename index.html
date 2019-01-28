@@ -99,7 +99,7 @@
 						<br><br><br><br>
 						<h5>Owner: <span id="snailowner0">?</span></h5>
 						<h5>Eggs: <span id="snailegg0">?</span></h5>
-						<button class="btn btn-lg btn-success" onclick="webSnagEgg(0)">SNAG</button>
+						<span id="snagbutton0"><button class="btn btn-lg btn-success" onclick="webSnagEgg(0)">SNAG</button></span>
 					</div>
 				</div>
 				<div class="col-sm">
@@ -111,7 +111,7 @@
 						<br><br><br><br>
 						<h5>Owner: <span id="snailowner1">?</span></p>
 						<h5>Eggs: <span id="snailegg1">?</span></h5>
-						<button class="btn btn-lg btn-success" onclick="webSnagEgg(1)">SNAG</button>
+						<span id="snagbutton1"><button class="btn btn-lg btn-success" onclick="webSnagEgg(1)">SNAG</button></span>
 					</div>
 				</div>
 				<div class="col-sm">
@@ -123,7 +123,7 @@
 						<br><br><br><br>
 						<h5>Owner: <span id="snailowner2">?</span></p>
 						<h5>Eggs: <span id="snailegg2">?</span></h5>
-						<button class="btn btn-lg btn-success" onclick="webSnagEgg(2)">SNAG</button>
+						<span id="snagbutton2"><button class="btn btn-lg btn-success" onclick="webSnagEgg(2)">SNAG</button></span>
 					</div>
 				</div>
 				<div class="col-sm">
@@ -135,7 +135,7 @@
 						<br><br><br><br>
 						<h5>Owner: <span id="snailowner3">?</span></p>
 						<h5>Eggs: <span id="snailegg3">?</span></h5>
-						<button class="btn btn-lg btn-success" onclick="webSnagEgg(3)">SNAG</button>
+						<span id="snagbutton3"><button class="btn btn-lg btn-success" onclick="webSnagEgg(3)">SNAG</button></span>
 					</div>
 				</div>
 			</div>
@@ -157,7 +157,7 @@
 						<br><br><br><br>
 						<h5>Owner: <span id="snailowner4">?</span></h5>
 						<h5>Eggs: <span id="snailegg4">?</span></h5>
-						<button class="btn btn-lg btn-success" onclick="webSnagEgg(4)">SNAG</button>
+						<span id="snagbutton4"><button class="btn btn-lg btn-success" onclick="webSnagEgg(4)">SNAG</button></span>
 					</div>
 				</div>
 				<div class="col-sm">
@@ -169,7 +169,7 @@
 						<br><br><br><br>
 						<h5>Owner: <span id="snailowner5">?</span></p>
 						<h5>Eggs: <span id="snailegg5">?</span></h5>
-						<button class="btn btn-lg btn-success" onclick="webSnagEgg(5)">SNAG</button>
+						<span id="snagbutton5"><button class="btn btn-lg btn-success" onclick="webSnagEgg(5)">SNAG</button></span>
 					</div>
 				</div>
 				<div class="col-sm">
@@ -181,7 +181,7 @@
 						<br><br><br><br>
 						<h5>Owner: <span id="snailowner6">?</span></p>
 						<h5>Eggs: <span id="snailegg6">?</span></h5>
-						<button class="btn btn-lg btn-success" onclick="webSnagEgg(6)">SNAG</button>
+						<span id="snagbutton6"><button class="btn btn-lg btn-success" onclick="webSnagEgg(6)">SNAG</button></span>
 					</div>
 				</div>
 				<div class="col-sm">
@@ -193,7 +193,7 @@
 						<br><br><br><br>
 						<h5>Owner: <span id="snailowner7">?</span></p>
 						<h5>Eggs: <span id="snailegg7">?</span></h5>
-						<button class="btn btn-lg btn-success" onclick="webSnagEgg(7)">SNAG</button>
+						<span id="snagbutton7"><button class="btn btn-lg btn-success" onclick="webSnagEgg(7)">SNAG</button></span>
 					</div>
 				</div>
 			</div>
@@ -317,7 +317,7 @@
 			<div class="row">
 				<div class="col-sm">
 					<h4>SnailPot: <span id="snailpot">?</span> ETH</h3>
-					<button class="btn btn-lg btn-success" onclick="webBeginRound()">BEGIN ROUND</button>
+					<span id="startbutton"><button class="btn btn-lg btn-success" onclick="webBeginRound()">BEGIN ROUND</button></span>
 				</div>
 				<div class="col-sm snail">
 					<h4>Contract Balance:</h4>
@@ -460,6 +460,31 @@
 					<a href="#top"><img height="48" src="img/arrow_circle.png"></a>
 				</div>
 				<div class="col-sm">
+				</div>
+			</div>
+		</div>
+		<!-- MODALS -->
+		<div id="startmodal" class="modal">
+			<div class="jumbotron modal-content" align="center">
+				<h3>CAN'T START ROUND!</h3><br>
+				<div class="snail">
+					<h5>The round can only be started during downtime, after the timer hits 0.</h5>
+					<h5>Check the top of the page before trying to start a round.</h5>
+				</div>
+				<div class="container">
+					<button type="button" class="btn btn-success" onclick="CloseModal()">Got it!</button>
+				</div>
+			</div>
+		</div>
+		<div id="snagmodal" class="modal">
+			<div class="jumbotron modal-content" align="center">
+				<h3>CAN'T SNAG!</h3><br>
+				<div class="snail">
+					<h5>You must own this Snail in order to Snag his Eggs.</h5>
+					<h5>Grab the Snail first, then you'll be able to Snag.</h5>
+				</div>
+				<div class="container">
+					<button type="button" class="btn btn-success" onclick="CloseModal()">Got it!</button>
 				</div>
 			</div>
 		</div>
