@@ -85,12 +85,6 @@
 	background-size: 128px;
 }
 
-/* Small container */
-
-.small-width{
-	max-width: 256px;
-}
-
 a {
 	color: black;
 }
