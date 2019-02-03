@@ -2,7 +2,8 @@
 //var contractAddress="0x40D31F904Af622cfd3F3C4EFCcEb06C564F89eCe"; //ROPSTEN 2
 //var contractAddress="0xE0aF939d88eE2f7dACe1161cf910A8d300019D39"; //ROPSTEN 2.1
 //var contractAddress="0x1443B778622e66924Af7B64c3dfb1A8B700AB0E8"; //ROPSTEN 3
-var contractAddress="0xd0AD02a47132D4D9b7c557ff77Fb3e5C65B3942d"; //ROPSTEN 5
+//var contractAddress="0xd0AD02a47132D4D9b7c557ff77Fb3e5C65B3942d"; //ROPSTEN 5
+var contractAddress="0x2a26b5d1eed284f403492044ef4106ef0ed9c60a"; //MAINNET
 
 //-- WEB3 DETECTION --//
 var web3;
@@ -237,11 +238,11 @@ document.getElementById('snagbutton7')
 //Leaderboard Array
 
 var d_leaderboard = [
-	{ address: "0x0000000022223333444455556666777788889999", egg: 0, rank: 1 },
-	{ address: "0x0000111122223333444455556666777788889999", egg: 0, rank: 2 },
-	{ address: "0x0000222222223333444455556666777788889999", egg: 0, rank: 3 },
-	{ address: "0x0000333322223333444455556666777788889999", egg: 0, rank: 4 },
-	{ address: "0x0000444422223333444455556666777788889999", egg: 0, rank: 5 }
+	{ address: "0x0000000022223333444455556666777788889999", egg: 0 },
+	{ address: "0x0000111122223333444455556666777788889999", egg: 0 },
+	{ address: "0x0000222222223333444455556666777788889999", egg: 0 },
+	{ address: "0x0000333322223333444455556666777788889999", egg: 0 },
+	{ address: "0x0000444422223333444455556666777788889999", egg: 0 }
 ];	
 
 /* UTILITIES */
@@ -443,45 +444,25 @@ function updateActiveInterface(){
 }
 		
 var leaderboardArray = [];
-leaderboardArray[0] = 0;
-leaderboardArray[1] = document.getElementById('eggking1');
-leaderboardArray[2] = document.getElementById('eggking2');
-leaderboardArray[3] = document.getElementById('eggking3');
-leaderboardArray[4] = document.getElementById('eggking4');
-leaderboardArray[5] = document.getElementById('eggking5');
+leaderboardArray[0] = document.getElementById('eggking1');
+leaderboardArray[1] = document.getElementById('eggking2');
+leaderboardArray[2] = document.getElementById('eggking3');
+leaderboardArray[3] = document.getElementById('eggking4');
+leaderboardArray[4] = document.getElementById('eggking5');
 
 //Show Leaderboard
 function showLeaderboard() {
-	for(i = 1; i < 6; i++) {
-		for(j = 0; j < 5; j++) {
-			if(d_leaderboard[j].rank == i) {
-				leaderboardArray[i].innerHTML = formatEthAdr(d_leaderboard[j].address) + "<br>" + d_leaderboard[j].egg + " Eggs";
-			}
-		}
+	for(j = 0; j < 5; j++) {
+		leaderboardArray[i].innerHTML = formatEthAdr(d_leaderboard[j].address) + "<br>" + d_leaderboard[j].egg + " Eggs";
 	}
 }
 
 //Update for Leaderboard checking every address
 function slowupdateLeaderboard() {	
-	//Loop through Trees and store top ones to assign ranks
-	var avoidNext = [0, 0, 0, 0, 0];
-	for(k = 1; k < 6; k++) {
-		var topEgg = -1;
-		var topGuy = 0;
-		for(j = 0; j < 5; j++) {
-			if(avoidNext[j] != 1){
-				////console.log("avoidNext[" + j + "] evaluated to != 1");
-				if(d_leaderboard[j].egg > topEgg){
-					topEgg = d_leaderboard[j].egg;
-					topGuy = j;
-				}
-			}
-		}
-		d_leaderboard[topGuy].rank = k;
-		////console.log("New rank " + k + " : " + d_leaderboard[topGuy].address);
-		avoidNext[topGuy] = 1;
-		////console.log("Next time, avoid indice " + topGuy);
-	}	
+	//sort leaderboard
+	d_leaderboard.sort(function (a, b) {
+		return b.egg - a.egg;
+	});
 	showLeaderboard();
 }
 
@@ -1295,36 +1276,27 @@ function checkHash(txarray, txhash) {
 	}
 }
 
-//Compute Leaderboard
-
+//Compute Leaderboard 2
 function computeLeaderboard() {
-	var lowest = d_leaderboard[0].egg;
-	var position = 0; 
 	
-	//Check lowest leader
-	var i = 0;
-	for(i = 0; i < 5; i++) {
-		if(d_leaderboard[i].egg < lowest) {
-			lowest = d_leaderboard[i].egg;
-			position = i;
-		}
-	}
-	
-	//Check if new player is already on leaderboard, then check if new player can replace lowest
-	var notLeader = true;
-	for(k = 0; k < 5; k++) {
-		if(e_challenger.address == d_leaderboard[k].address) {
-			d_leaderboard[k].address = e_challenger.address;
+	//check address isn't already on leaderboard
+	isLeader = false;
+	for(k = 0; k < d_leaderboard.length; k++){
+		if(e_challenger.address == d_leaderboard[k].address){
 			d_leaderboard[k].egg = e_challenger.egg;
-			notLeader = false;
+			isLeader = true;
 		}
 	}
-
-	var newEntry = false;
-	if(notLeader == true && e_challenger.egg > lowest) {
-		d_leaderboard[position].address = e_challenger.address;
-		d_leaderboard[position].egg = e_challenger.egg;
-		newEntry = true;
+	
+	if(isLeader == false){
+		//else, push new leader
+		d_leaderboard.push(e_challenger);
+		//sort leaderboard
+		d_leaderboard.sort(function (a, b) {
+			return b.egg - a.egg;
+		});
+		//remove lowest leader
+		d_leaderboard.pop();
 	}
 }
 
@@ -1414,8 +1386,8 @@ grabbedsnailEvent.watch(function(error, result){
 			date24();
 			eventlogdoc.innerHTML += "<br>[" + datetext + "] " + formatEthAdr(result.args.player) + " grabs " + idSnailToName(web3.toDecimal(result.args.snail)) + " for " + formatEthValue2(web3.fromWei(result.args.eth,'ether')) + " ETH, and gets " + result.args.egg + " eggs.";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
-			e_challenger.address = result[i].args.player;
-			e_challenger.egg =  parseInt(result[i].args.playeregg);
+			e_challenger.address = result.args.player;
+			e_challenger.egg =  parseInt(result.args.playeregg);
 			computeLeaderboard();
 		}
 	}
@@ -1430,8 +1402,8 @@ snaggedeggEvent.watch(function(error, result){
 			date24();
 			eventlogdoc.innerHTML += "<br>[" + datetext + "] " + formatEthAdr(result.args.player) + " snags " + result.args.egg + " eggs from his snail " + idSnailToName(web3.toDecimal(result.args.snail)) + ".";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
-			e_challenger.address = result[i].args.player;
-			e_challenger.egg =  parseInt(result[i].args.playeregg);
+			e_challenger.address = result.args.player;
+			e_challenger.egg =  parseInt(result.args.playeregg);
 			computeLeaderboard();
 		}
 	}
@@ -1446,8 +1418,8 @@ claimedlordEvent.watch(function(error, result){
 			date24();
 			eventlogdoc.innerHTML += "<br>[" + datetext + "] " + formatEthAdr(result.args.player) + " claims the lord " + idLordToName(web3.toDecimal(result.args.lord)) + "! For their " + formatEthValue2(web3.fromWei(result.args.eth,'ether')) + " ETH, they get " + result.args.egg + " eggs.";
 			logboxscroll.scrollTop = logboxscroll.scrollHeight;
-			e_challenger.address = result[i].args.player;
-			e_challenger.egg =  parseInt(result[i].args.playeregg);
+			e_challenger.address = result.args.player;
+			e_challenger.egg =  parseInt(result.args.playeregg);
 			computeLeaderboard();
 		}
 	}
