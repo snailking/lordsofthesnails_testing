@@ -1296,7 +1296,7 @@ function computeLeaderboard() {
 			return b.egg - a.egg;
 		});
 		for(i = 0; i < d_leaderboard.length; i++){
-			console.log(d_leaderboard[i];
+			console.log(d_leaderboard[i]);
 		}
 		//remove lowest leader
 		d_leaderboard.pop();
