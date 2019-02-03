@@ -453,7 +453,7 @@ leaderboardArray[4] = document.getElementById('eggking5');
 //Show Leaderboard
 function showLeaderboard() {
 	for(j = 0; j < 5; j++) {
-		leaderboardArray[i].innerHTML = formatEthAdr(d_leaderboard[j].address) + "<br>" + d_leaderboard[j].egg + " Eggs";
+		leaderboardArray[j].innerHTML = formatEthAdr(d_leaderboard[j].address) + "<br>" + d_leaderboard[j].egg + " Eggs";
 	}
 }
 
