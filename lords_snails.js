@@ -1283,7 +1283,6 @@ function computeLeaderboard() {
 	isLeader = false;
 	for(k = 0; k < d_leaderboard.length; k++){
 		if(e_challenger.address == d_leaderboard[k].address){
-			d_leaderboard[k].egg = e_challenger.egg;
 			isLeader = true;
 		}
 	}
